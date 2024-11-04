@@ -1,4 +1,4 @@
-package com.example.navalbattle;
+package com.example.navalbattle.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

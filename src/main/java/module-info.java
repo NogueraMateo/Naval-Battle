@@ -5,4 +5,8 @@ module com.example.navalbattle {
 
     opens com.example.navalbattle to javafx.fxml;
     exports com.example.navalbattle;
+    exports com.example.navalbattle.controllers;
+    opens com.example.navalbattle.controllers to javafx.fxml;
+    exports com.example.navalbattle.views;
+    opens com.example.navalbattle.views to javafx.fxml;
 }
