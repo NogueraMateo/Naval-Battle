@@ -49,6 +49,17 @@ public class Machine {
 
         for (int size : shipsSize) {
             boolean placed = false;
+            int aux = 0;
+            if (size == 4){
+                aux = 4;
+            } else if (size == 3){
+                aux = 3;
+            } else if (size == 2){
+                aux = 2;
+            } else if (size == 1){
+                aux = 1;
+            }
+
 
             while (!placed) {
                 int row = random.nextInt(10);
@@ -58,9 +69,9 @@ public class Machine {
                 if (canPlaced(row, column, size, horizontal)) {
                     for (int j = 0; j < size; j++) {
                         if (horizontal) {
-                            board[row][column + j] = 1;
+                            board[row][column + j] = aux;
                         } else {
-                            board[row + j][column] = 1;
+                            board[row + j][column] = aux;
                         }
                     }
                     placed = true;
@@ -81,15 +92,30 @@ public class Machine {
         if (horizontal) {
             if (column + size > 10) return false;
             for (int i = 0; i < size; i++) {
-                if (board[row][column + i] == 1) return false;
+                if (board[row][column + i] == 1 || board[row][column + i] == 2 || board[row][column + i] == 3 || board[row][column + i] == 4) {
+                    return false;
+                }
             }
         } else {
             if (row + size > 10) return false;
             for (int i = 0; i < size; i++) {
-                if (board[row + i][column] == 1) return false;
+                if (board[row + i][column] == 1 || board[row + i][column] == 2 || board[row + i][column] == 3 || board[row + i][column] == 4) {
+                    return false;
+                }
             }
         }
         return true;
+    }
+
+    /**
+     * Generates a random shot on the board by selecting a random coordinate.
+     * @return an integer array containing the x (row) and y (column) coordinates of the shot
+     */
+    public int[] shot(){
+        Random random = new Random();
+        int x = random.nextInt(10);
+        int y = random.nextInt(10);
+        return new int[]{x, y};
     }
 
     /**
@@ -102,7 +128,7 @@ public class Machine {
 
     /**
      * Displays the current state of the board in the console.
-     * Cells with value 0 are shown as '~' (water) and cells with value 1 as 'B' (ship).
+     * Cells with value 0 display as '~' (water) and cells with value 1, 2, 3 or 4 display the first letter of the ship type
      */
     public void showBoard() {
         System.out.println("   0 1 2 3 4 5 6 7 8 9");
@@ -112,8 +138,14 @@ public class Machine {
             for (int columna = 0; columna < board[fila].length; columna++) {
                 if (board[fila][columna] == 0) {
                     System.out.print("~ ");
-                } else {
-                    System.out.print("B ");
+                } else if (board[fila][columna] == 4) {
+                    System.out.print("P ");
+                } else if (board[fila][columna] == 3) {
+                    System.out.print("S ");
+                } else if (board[fila][columna] == 2) {
+                    System.out.print("D ");
+                } else if (board[fila][columna] == 1) {
+                    System.out.print("F ");
                 }
             }
             System.out.println();
