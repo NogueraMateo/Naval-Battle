@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * The Machine class represents the machine's game board in a battleship game.
+ * The mainTable class represents the machine's game board in a battleship game.
  * The board is a 10x10 grid with randomly placed ships of varying sizes.
  * Ships sizes are defined in the shipsSize array.
  * @author JuanToro
  */
-public class Machine {
+public class mainTable {
     /**
      * A 10x10 grid representing the game board.
      * Each cell can be either 0 (water) or 1 (occupied by a ship).
@@ -25,7 +25,7 @@ public class Machine {
      * Constructor for the Machine class. Initializes the game board,
      * places the ships randomly, and displays the board.
      */
-    public Machine (){
+    public mainTable(){
         startBoard();
         showBoard();
     }
