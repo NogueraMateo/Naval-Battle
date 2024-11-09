@@ -1,5 +1,6 @@
 package com.example.navalbattle.models;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -9,7 +10,7 @@ import java.util.Random;
  * Ships sizes are defined in the shipsSize array.
  * @author JuanToro
  */
-public class mainTable {
+public class MainTable {
     /**
      * A 10x10 grid representing the game board.
      * Each cell can be either 0 (water) or 1 (occupied by a ship).
@@ -17,15 +18,19 @@ public class mainTable {
     private final int[][] board = new int[10][10];
 
     /**
-     * Array defining the sizes of each ship to be placed on the board.
+     * ArrayList of ship type objects
      */
-    private final int[] shipsSize = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
+    ArrayList<Ship> ships = new ArrayList<Ship>();
 
     /**
      * Constructor for the Machine class. Initializes the game board,
      * places the ships randomly, and displays the board.
      */
-    public mainTable(){
+    public MainTable(){
+        ships.add(new Ship(4,4, 1));
+        ships.add(new Ship(3,3, 2));
+        ships.add(new Ship(2,2, 3));
+        ships.add(new Ship(1,1, 4));
         startBoard();
         showBoard();
     }
@@ -41,40 +46,34 @@ public class mainTable {
     }
 
     /**
-     * Randomly places ships on the board based on the ship sizes defined in shipsSize.
-     * Ensures that ships do not overlap or extend beyond the board's boundaries.
+     * Place ships randomly on the board based on the ship sizes defined in the Ships ArrayList.
+     * Ensures that ships do not overlap or extend beyond the board boundaries.
      */
     public void setShips() {
         Random random = new Random();
 
-        for (int size : shipsSize) {
-            boolean placed = false;
-            int aux = 0;
-            if (size == 4){
-                aux = 4;
-            } else if (size == 3){
-                aux = 3;
-            } else if (size == 2){
-                aux = 2;
-            } else if (size == 1){
-                aux = 1;
-            }
+        for (Ship ship : ships) {
+            int amount = ship.getShipAmount();
+            for (int i = 0; i < amount; i++) {
+                int size = ship.getShipSize();
+                boolean placed = false;
+                int aux = ship.getShipType();
 
+                while (!placed) {
+                    int row = random.nextInt(10);
+                    int column = random.nextInt(10);
+                    boolean horizontal = random.nextBoolean();
 
-            while (!placed) {
-                int row = random.nextInt(10);
-                int column = random.nextInt(10);
-                boolean horizontal = random.nextBoolean();
-
-                if (canPlaced(row, column, size, horizontal)) {
-                    for (int j = 0; j < size; j++) {
-                        if (horizontal) {
-                            board[row][column + j] = aux;
-                        } else {
-                            board[row + j][column] = aux;
+                    if (canPlaced(row, column, size, horizontal)) {
+                        for (int j = 0; j < size; j++) {
+                            if (horizontal) {
+                                board[row][column + j] = aux;
+                            } else {
+                                board[row + j][column] = aux;
+                            }
                         }
+                        placed = true;
                     }
-                    placed = true;
                 }
             }
         }
