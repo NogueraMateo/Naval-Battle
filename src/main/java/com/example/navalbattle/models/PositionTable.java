@@ -28,6 +28,16 @@ public class PositionTable {
         ships.add(new Ship(1,1, 4));
     }
 
+    public PositionTable(int[][] positionTable) {
+        ships.add(new Ship(4,4, 0));
+        ships.add(new Ship(3,3, 0));
+        ships.add(new Ship(2,2, 0));
+        ships.add(new Ship(1,1, 0));
+        this.positionTable = positionTable;
+        System.out.println("Previous position table loaded");
+        this.printBoard();
+    }
+
     public int[][] getPositionTable() {
         return positionTable;
     }

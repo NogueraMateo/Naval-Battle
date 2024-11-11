@@ -15,7 +15,7 @@ public class MainTable {
      * A 10x10 grid representing the game board.
      * Each cell can be either 0 (water) or 1 (occupied by a ship).
      */
-    private final int[][] board = new int[10][10];
+    private int[][] board = new int[10][10];
 
     /**
      * ArrayList of ship type objects
@@ -32,6 +32,16 @@ public class MainTable {
         ships.add(new Ship(2,2, 3));
         ships.add(new Ship(1,1, 4));
         startBoard();
+        showBoard();
+    }
+
+    public MainTable(int[][] board){
+        ships.add(new Ship(4,4, 0));
+        ships.add(new Ship(3,3, 0));
+        ships.add(new Ship(2,2, 0));
+        ships.add(new Ship(1,1, 0));
+        this.board = board;
+        System.out.println("Previous Main Table loaded");
         showBoard();
     }
 
