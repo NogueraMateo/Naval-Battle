@@ -1,0 +1,98 @@
+@font-face {
+    font-family: 'Chewy';
+    src: url("../fonts/Chewy-Regular.ttf");
+}
+
+#baseHBox {
+    -fx-background-color: #9fbec4;
+}
+
+#userBaseHBox, #machineBaseHBox {
+    -fx-padding: 20px 20px 10px 20px;
+}
+
+#userBaseHBox {
+    -fx-background-color: #274154;
+    -fx-background-radius: 30px;
+}
+
+#machineBaseHBox {
+    -fx-background-color: #edeae4;
+    -fx-background-radius: 30px;
+}
+
+#machineBaseGrid {
+    -fx-border-color: #274154;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+}
+
+#userBaseGrid {
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+}
+
+#yourFleet, #machinesFleet{
+    -fx-font-family: "Chewy";
+    -fx-font-size: 2.5em;
+}
+
+.userCell {
+    -fx-border-color: #ffffff;
+    -fx-border-width: 0.5px;
+    -fx-max-height: 38px;
+    -fx-max-width: 38px;
+}
+
+#yourFleet {
+    -fx-text-fill: white;
+}
+
+#machinesFleet {
+    -fx-text-fill: #274154;
+}
+
+#userGrid {
+    -fx-border-color: #ffffff;
+    -fx-border-style: solid;
+}
+
+.machineCell {
+    -fx-border-width: 0.5px;
+    -fx-max-height: 38px;
+    -fx-max-width: 38px;
+    -fx-border-color: #274154;
+}
+
+.machineCell:hover {
+    -fx-background-color: #4d7499;
+    -fx-cursor: "hand";
+}
+
+#placeShips, #revealFleet, #startGame {
+    -fx-font-family: "Chewy";
+    -fx-font-size: 1.7em;
+    -fx-background-radius: 16px;
+}
+
+#placeShips {
+    -fx-background-color: #edeae4;
+    -fx-text-fill: #274154;
+}
+
+#revealFleet, #startGame {
+    -fx-background-color: #274154;
+    -fx-text-fill: #ffffff;
+}
+
+.tooltip {
+    -fx-font-family: "Chewy";
+    -fx-font-size: 1.1em;
+    -fx-background-color: #a69f9f;
+    -fx-text-fill: #000;
+}
+
+.ship:hover {
+    -fx-cursor: hand;
+}
