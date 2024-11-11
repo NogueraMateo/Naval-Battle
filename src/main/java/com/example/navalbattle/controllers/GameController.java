@@ -1,12 +1,15 @@
 package com.example.navalbattle.controllers;
 
 
+import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+import java.util.List;
 
 /**
  * The GameController interacts with the view to place ships,
@@ -25,6 +28,7 @@ public class GameController {
     private HBox shipsContainer;
 
     private final ShipDrawer drawer;
+    private final MainTable mainTable;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -32,6 +36,7 @@ public class GameController {
      */
     public GameController() {
         drawer = new ShipDrawer();
+        mainTable = new MainTable();
     }
 
     @FXML
@@ -89,5 +94,39 @@ public class GameController {
         Tooltip carrierTooltip = new Tooltip("Aircraft carrier:\n- Size: 4 cells\n- The biggest ship, provides air support");
         carrierTooltip.getStyleClass().add("tooltip");
         Tooltip.install(aircraft, carrierTooltip);
+    }
+
+    /**
+     * Places the machine's fleet on the board using the coordinates obtained
+     * from the mainTable
+     * Each ship is drawn on the board at the specified position and orientation.
+     */
+    public void setMachinesFleet() {
+        List<int[]> shipCoordinates = mainTable.getShipCoordinatesList();
+        for (int[] coordinates : shipCoordinates) {
+            int row = coordinates[0];
+            int column = coordinates[1];
+            boolean vertical = (coordinates[4] == 0);
+            int type = coordinates[5];
+            Group ship = drawShip(type, vertical);
+            machinesFleet.add(ship, column, row);
+        }
+    }
+
+    /**
+     * Draws the ship corresponding to the specified type and orientation.
+     *
+     * @param cell The type of ship (1 = Frigate, 2 = Destroyer, 3 = Submarine, 4 = Aircraft Carrier).
+     * @param vertical Determines if the ship is vertical (true) or horizontal (false).
+     * @return A {@link Group} object representing the ship to be added to the graphical user interface.
+     */
+    private Group drawShip(int cell, boolean vertical) {
+        return switch (cell) {
+            case 1 -> drawer.drawFrigate();
+            case 2 -> drawer.drawDestroyer(vertical);
+            case 3 -> drawer.drawSubmarine(vertical);
+            case 4 -> drawer.drawAircraftCarrier(vertical);
+            default -> null;
+        };
     }
 }
