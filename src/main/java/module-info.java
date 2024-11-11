@@ -1,6 +1,7 @@
 module com.example.navalbattle {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens com.example.navalbattle to javafx.fxml;
