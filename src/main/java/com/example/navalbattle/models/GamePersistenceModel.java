@@ -14,7 +14,12 @@ public class GamePersistenceModel implements GamePersistenceInterface{
 
     private MatchStatusSerializable currentMatchStatus;
 
-    public GamePersistenceModel() {}
+    public GamePersistenceModel() {
+        File directory = new File("./src/main/resources/com/example/navalbattle/previousMatch");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+    }
 
     @Override
     public void registerNewMatch(int[][] mainTable, int[][] positionTable) {
