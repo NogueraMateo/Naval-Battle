@@ -11,7 +11,7 @@ public class PositionTable {
     /**
      * It's the 10x10 matrix that represents the player's table where the ships are going to be placed
      */
-    int[][] positionTable = new int[10][10];
+    private int[][] positionTable = new int[10][10];
     /**
      * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
      */
@@ -26,6 +26,20 @@ public class PositionTable {
         ships.add(new Ship(3,3, 2));
         ships.add(new Ship(2,2, 3));
         ships.add(new Ship(1,1, 4));
+    }
+
+    public PositionTable(int[][] positionTable) {
+        ships.add(new Ship(4,4, 0));
+        ships.add(new Ship(3,3, 0));
+        ships.add(new Ship(2,2, 0));
+        ships.add(new Ship(1,1, 0));
+        this.positionTable = positionTable;
+        System.out.println("Previous position table loaded");
+        this.printBoard();
+    }
+
+    public int[][] getPositionTable() {
+        return positionTable;
     }
 
     /**

@@ -19,8 +19,7 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
-        PositionTable positionTable = new PositionTable();
+        launch();
 
         /*
         System.out.println("++++++++++++MOVEMENT 1++++++++++");

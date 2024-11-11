@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox id="baseHBox" alignment="CENTER" prefHeight="692.0" prefWidth="1064.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
+   <children>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1064.0" spacing="50.0" stylesheets="@styles/game-view.css">
+         <children>
+            <VBox id="userBaseHBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="562.0" prefWidth="420.0">
+               <children>
+                  <Label id="yourFleet" text="Your fleet" />
+                  <GridPane id="userBaseGrid" fx:id="userFleet" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="330.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="7" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="8" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="18.0" prefWidth="23.0" styleClass="userCell" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="userCell" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <HBox id="shipsContainer" fx:id="shipsContainer" alignment="CENTER" prefHeight="45.0" prefWidth="380.0" spacing="20.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="44.0" prefWidth="380.0">
+                     <children>
+                        <Button id="placeShips" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="42.0" prefWidth="124.0" text="Place Ships">
+                           <HBox.margin>
+                              <Insets top="25.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox id="machineBaseHBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="562.0" prefWidth="420.0">
+               <children>
+                  <Label id="machinesFleet" text="Machine's fleet" />
+                  <GridPane id="machineBaseGrid" fx:id="machinesFleet" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="330.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="3" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="5" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="7" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="8" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="7" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="8" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="23.0" styleClass="machineCell" GridPane.columnIndex="9" GridPane.rowIndex="9" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" />
+                        <Pane maxHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" styleClass="machineCell" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="44.0" prefWidth="425.0">
+                     <children>
+                        <Button id="revealFleet" fx:id="revealFleet" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="42.0" prefWidth="142.0" text="Reveal fleet" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="80.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button id="startGame" fx:id="revealFleet1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
+   </children>
+</VBox>
