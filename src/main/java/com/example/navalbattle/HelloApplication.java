@@ -20,20 +20,5 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         launch();
-
-        /*
-        System.out.println("++++++++++++MOVEMENT 1++++++++++");
-        positionTable.setShipPosition(0, 0, 0, 0);
-        positionTable.printBoard();
-        System.out.println("++++++++++++MOVEMENT 2++++++++++");
-        positionTable.setShipPosition(0, 1, 0, 0);
-        positionTable.printBoard();
-        System.out.println("++++++++++++MOVEMENT 3++++++++++");
-        positionTable.setShipPosition(1, 1, 0, 1);
-        positionTable.printBoard();
-        System.out.println("++++++++++++MOVEMENT 4++++++++++");
-        positionTable.setShipPosition(1, 2, 3, 0);
-        positionTable.printBoard();
-        */
     }
 }

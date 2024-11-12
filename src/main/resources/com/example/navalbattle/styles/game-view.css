@@ -45,6 +45,10 @@
     -fx-max-width: 38px;
 }
 
+.userCell:hover{
+    -fx-background-color: #ededed;
+}
+
 #yourFleet {
     -fx-text-fill: white;
 }
