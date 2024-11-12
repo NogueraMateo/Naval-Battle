@@ -1,10 +1,16 @@
 package com.example.navalbattle.controllers;
 
 
+import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.views.ShipDrawer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -24,7 +30,16 @@ public class GameController {
     @FXML
     private HBox shipsContainer;
 
+    @FXML
+    private Button orientationButton;
+
     private final ShipDrawer drawer;
+    private PositionTable positionTable = new PositionTable();
+
+    private Integer gridPaneRow;
+    private Integer gridPaneCol;
+    private int shipType;
+    private int shipOrientation = 0;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -39,27 +54,26 @@ public class GameController {
 
         Group ship1 = drawer.drawFrigate();
         ship1.getStyleClass().add("ship");
+        ship1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 1;
+            System.out.println(shipType);});
+
         Group ship2 = drawer.drawDestroyer(false);
         ship2.getStyleClass().add("ship");
+        ship2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 2;
+            System.out.println(shipType);});
+
         Group ship3 = drawer.drawSubmarine(false);
         ship3.getStyleClass().add("ship");
+        ship3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 3;
+            System.out.println(shipType);});
+
         Group ship4 = drawer.drawAircraftCarrier(false);
         ship4.getStyleClass().add("ship");
+        ship4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 4;
+            System.out.println(shipType);});
+
         setUpToolTips(ship1, ship2, ship3, ship4);
         shipsContainer.getChildren().addAll(ship1, ship2, ship3, ship4);
-
-        Group frigate = drawer.drawFrigate();
-        userFleet.add(frigate, 0, 0);
-
-        Group destroyer = drawer.drawDestroyer(false);
-        userFleet.add(destroyer, 0, 1);
-
-        Group submarine = drawer.drawSubmarine(false);
-        userFleet.add(submarine, 0, 2);
-
-        Group aircraft = drawer.drawAircraftCarrier(false);
-        userFleet.add(aircraft, 0,3 );
-
     }
 
 
@@ -89,5 +103,61 @@ public class GameController {
         Tooltip carrierTooltip = new Tooltip("Aircraft carrier:\n- Size: 4 cells\n- The biggest ship, provides air support");
         carrierTooltip.getStyleClass().add("tooltip");
         Tooltip.install(aircraft, carrierTooltip);
+    }
+
+    @FXML
+    private void getGridPaneCoordinates(MouseEvent event) {
+        Node clickedNode = (Node) event.getSource();
+        gridPaneRow = GridPane.getRowIndex(clickedNode);
+        gridPaneCol = GridPane.getColumnIndex(clickedNode);
+
+        if (gridPaneRow == null) gridPaneRow = 0;
+        if (gridPaneCol == null) gridPaneCol = 0;
+
+        boolean checkPosition = positionTable.checkPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
+        boolean checkAmount = positionTable.checkAmount(shipType);
+        boolean orientation = false;
+
+        if (shipOrientation == 0) orientation = false;
+        else orientation = true;
+
+        if (checkPosition) {
+            if (checkAmount) {
+                positionTable.setShipPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
+                System.out.println("++++++++++++++++++++++++++MOVEMENT++++++++++++++++++++++++++");
+                positionTable.printBoard();
+                switch (shipType){
+                    case 1: Group frigate = drawer.drawFrigate();
+                        userFleet.add(frigate, gridPaneCol, gridPaneRow);
+                        break;
+                    case 2: Group destroyer = drawer.drawDestroyer(orientation);
+                        userFleet.add(destroyer, gridPaneCol, gridPaneRow);
+                        break;
+                    case 3: Group submarine = drawer.drawSubmarine(orientation);
+                        userFleet.add(submarine, gridPaneCol, gridPaneRow);
+                        break;
+                    case 4: Group aircraft = drawer.drawAircraftCarrier(orientation);
+                        userFleet.add(aircraft, gridPaneCol, gridPaneRow);
+                        break;
+                }
+            }
+            else
+                System.out.println("THERE IS NO AMOUNT OF THIS SHIP");
+        }
+        else
+            System.out.println("THERE IS A SHIP ALREADY");
+    }
+
+    @FXML
+    private void getShipOrientation(ActionEvent event) {
+        if (shipOrientation == 0){
+            orientationButton.setText("Orientation: Vertical");
+            shipOrientation = 1;
+        }
+        else if (shipOrientation == 1){
+            orientationButton.setText("Orientation: Horizontal");
+            shipOrientation = 0;
+        }
+        System.out.println(shipOrientation);
     }
 }

@@ -22,17 +22,22 @@ public class PositionTable {
      * creation.
      */
     public PositionTable() {
-        ships.add(new Ship(4,4, 1));
-        ships.add(new Ship(3,3, 2));
-        ships.add(new Ship(2,2, 3));
+        ships.add(null);
         ships.add(new Ship(1,1, 4));
+        ships.add(new Ship(2,2, 3));
+        ships.add(new Ship(3,3, 2));
+        ships.add(new Ship(4,4, 1));
     }
 
     public PositionTable(int[][] positionTable) {
-        ships.add(new Ship(4,4, 0));
-        ships.add(new Ship(3,3, 0));
-        ships.add(new Ship(2,2, 0));
+        ships.add(null);
         ships.add(new Ship(1,1, 0));
+        ships.add(new Ship(2,2, 0));
+        ships.add(new Ship(3,3, 0));
+        ships.add(new Ship(4,4, 0));
+
+
+
         this.positionTable = positionTable;
         System.out.println("Previous position table loaded");
         this.printBoard();
@@ -54,38 +59,20 @@ public class PositionTable {
         Ship ship = ships.get(shipIndex);
         int shipSize = ship.getShipSize();
         int shipType = ship.getShipType();
-        int shipAmount = ship.getShipAmount();
-        boolean canPlaceShip = true;
 
-        if (shipAmount == 0){
-            canPlaceShip = false;
-        }
-
-        if (canPlaceShip){
-            if (checkPosition(shipIndex, row, col, orientation)) {
-                //VERTICAL ORIENTATION
-                if (orientation == 1){
-                    for (int i = row; i < shipSize + row; i++){
-                        positionTable[i][col] = shipType;
-                    }
-                }
-                //HORIZONTAL ORIENTATION
-                else if (orientation == 0){
-                    for (int j = col; j < shipSize + col; j++){
-                        positionTable[row][j] = shipType;
-                    }
-                }
-                ship.setShipAmount(ship.getShipAmount() - 1);
-            }
-            else {
-                System.out.println("INVALID POSITION, ALREADY A SHIP PLACED IN HERE");
+        //VERTICAL ORIENTATION
+        if (orientation == 1){
+            for (int i = row; i < shipSize + row; i++){
+                positionTable[i][col] = shipType;
             }
         }
-        else {
-            System.out.println("NO MORE SHIPS");
+        //HORIZONTAL ORIENTATION
+        else if (orientation == 0){
+            for (int j = col; j < shipSize + col; j++){
+                positionTable[row][j] = shipType;
+            }
         }
-
-
+        ship.setShipAmount(ship.getShipAmount() - 1);
     }
 
     /**
@@ -100,7 +87,6 @@ public class PositionTable {
         Ship ship = ships.get(shipIndex);
         int shipSize = ship.getShipSize();
         int checkCounter = 0;
-        boolean isAvailable = false;
 
         //VERTICAL ORIENTATION
         if (orientation == 1){
@@ -118,8 +104,18 @@ public class PositionTable {
         }
 
         if (checkCounter == shipSize)
-            isAvailable = true;
-        return isAvailable;
+            return true;
+        return false;
+    }
+
+    public boolean checkAmount(int shipIndex){
+        Ship ship = ships.get(shipIndex);
+        int shipAmount = ship.getShipAmount();
+
+        if (shipAmount == 0){
+            return false;
+        }
+        return true;
     }
 
     /**
