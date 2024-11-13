@@ -60,6 +60,12 @@ public class GameController {
     @FXML
     private Label descriptionLabel;
 
+    @FXML
+    private Button startGame;
+
+    @FXML
+    private VBox parentContainer;
+
     private final ShipDrawer drawer;
 
     private final MainTable mainTable;
@@ -70,6 +76,13 @@ public class GameController {
     private Integer gridPaneCol;
     private int shipType;
     private int shipOrientation = 0;
+
+    private Group frigateGhost;
+    private Group destroyerGhost;
+    private Group submarineGhost;
+    private Group aircraftGhost;
+
+    private Group currentGhost;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -83,12 +96,18 @@ public class GameController {
     @FXML
     private void initialize() {
         setUpShipEvents();
+        frigateGhost = drawer.drawFrigate(false);
+        destroyerGhost = drawer.drawDestroyer(false, false);
+        submarineGhost = drawer.drawSubmarine(false, false);
+        aircraftGhost = drawer.drawAircraftCarrier(false, false);
     }
 
     private void setUpShipEvents() {
         Group ship1 = drawer.drawFrigate(true);
         ship1.getStyleClass().add("ship");
         ship1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 1;
+            orientationButton.setDisable(false);
+            setShipGhost(shipType);
             descriptionLabel.setText("Frigate: A fast and light ship, occupies 1 cells.");
             System.out.println(shipType);});
 
@@ -96,6 +115,8 @@ public class GameController {
         ship2.getStyleClass().add("ship");
         ship2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             shipType = 2;
+            setShipGhost(shipType);
+            orientationButton.setDisable(false);
             descriptionLabel.setText("Destroyer: An agile combat ship, occupies 2 cells.");
             System.out.println(shipType);});
 
@@ -103,12 +124,16 @@ public class GameController {
         ship3.getStyleClass().add("ship");
         ship3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             shipType = 3;
+            setShipGhost(shipType);
+            orientationButton.setDisable(false);
             descriptionLabel.setText("Submarine: A stealthy underwater attack ship, occupies 3 cells.");
             System.out.println(shipType);});
 
         Group ship4 = drawer.drawAircraftCarrier(true, false);
         ship4.getStyleClass().add("ship");
         ship4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 4;
+            setShipGhost(shipType);
+            orientationButton.setDisable(false);
             descriptionLabel.setText("Carrier: A massive ship that carries aircraft, occupies 4 cells");
             System.out.println(shipType);});
 
@@ -213,10 +238,19 @@ public class GameController {
         }
         else
             showMessage("THERE IS A SHIP ALREADY", "error");
+
+        // Activates 'Start Game' Button
+        if (positionTable.isBoardFull()) {
+            startGame.setDisable(false);
+        }
     }
 
+    /**
+     * Decreases the ship amount by one on the interface
+     * @param shipType
+     */
     private void updateCounter(int shipType) {
-        int currentAmount;
+        int currentAmount = 0;
         switch (shipType) {
             case 1:
                 currentAmount = Character.getNumericValue(frigateCounter.getText().charAt(1));
@@ -239,6 +273,11 @@ public class GameController {
                 aircraftCounter.setText("x" + currentAmount);
                 break;
         }
+
+        // If there are no ships left then no ghost is shown
+        if (currentAmount == 0) {
+            userFleet.getChildren().remove(currentGhost);
+        }
     }
 
     @FXML
@@ -252,6 +291,49 @@ public class GameController {
             shipOrientation = 0;
         }
         System.out.println(shipOrientation);
+    }
+
+    /**
+     * Creates a Ghost version of the ship selected that follows the pointer
+     * so the user has a preview of the ship on the grid.
+     * @param shipType
+     */
+    private void setShipGhost(int shipType) {
+
+        // If there is a ship already selected then it removes the current ghost
+        if (currentGhost != null) {
+            userFleet.getChildren().remove(currentGhost);
+        }
+
+        // If there are no ships left of the ship selected no ghost is shown
+        if (!positionTable.checkAmount(shipType)) {
+            return;
+        }
+
+        switch (shipType) {
+            case 1: currentGhost = frigateGhost;
+            break;
+            case 2: currentGhost = destroyerGhost;
+            break;
+            case 3: currentGhost = submarineGhost;
+            break;
+            case 4: currentGhost = aircraftGhost;
+            break;
+        }
+
+        if (currentGhost != null) {
+            currentGhost.setOpacity(0.6);
+            userFleet.getChildren().add(currentGhost);
+        }
+
+        // The ghost ship follows the pointer
+        userFleet.setOnMouseMoved(event -> {
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+
+            currentGhost.setTranslateX(mouseX);
+            currentGhost.setTranslateY(mouseY);
+        });
     }
 
     private void showMessage(String msg, String msgType) {

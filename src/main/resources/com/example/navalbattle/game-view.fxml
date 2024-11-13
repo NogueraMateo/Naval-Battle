@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="baseHBox" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
+<VBox id="baseHBox" fx:id="parentContainer" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
    <children>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1208.0" spacing="50.0" stylesheets="@styles/game-view.css">
          <children>
@@ -176,7 +176,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="58.0" prefWidth="380.0">
                      <children>
-                        <Button id="placeShips" fx:id="orientationButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#getShipOrientation" prefHeight="49.0" prefWidth="228.0" text="Change Orientation">
+                        <Button id="placeShips" fx:id="orientationButton" alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#getShipOrientation" prefHeight="49.0" prefWidth="228.0" text="Change Orientation">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -335,6 +335,6 @@
          </children>
       </HBox>
       <Label id="messageLabel" fx:id="messageLabel" visible="false" />
-      <Button id="startGame" fx:id="revealFleet1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
+      <Button id="startGame" fx:id="startGame" alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
    </children>
 </VBox>
