@@ -47,6 +47,7 @@
 
 .userCell:hover{
     -fx-background-color: #ededed;
+    -fx-cursor: hand;
 }
 
 #yourFleet {
@@ -99,4 +100,30 @@
 
 .ship:hover {
     -fx-cursor: hand;
+}
+
+#selectionGrid {
+    -fx-background-color: #274154;
+    -fx-background-radius: 16px;
+}
+
+.shipCounter {
+    -fx-font-family: "Chewy";
+    -fx-font-size: 1.3em;
+    -fx-text-fill: #fff;
+}
+
+#messageLabel {
+    -fx-font-family: "Chewy";
+    -fx-font-size: 1.3em;
+}
+
+.error {
+    -fx-text-fill: #b23535;
+}
+
+#descriptionLabel {
+    -fx-font-family: "Chewy";
+    -fx-font-size: 1.1em;
+    -fx-text-fill: #D3D3D3;
 }

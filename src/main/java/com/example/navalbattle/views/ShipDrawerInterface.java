@@ -1,6 +1,7 @@
 package com.example.navalbattle.views;
 
 import javafx.scene.Group;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -16,7 +17,7 @@ public interface ShipDrawerInterface {
      *
      * @return a Group representing the frigate
      */
-    Group drawFrigate();
+    Group drawFrigate(boolean vertical);
 
     /**
      * Draws a destroyer, represented as a Group with a size of two cells.
@@ -24,7 +25,7 @@ public interface ShipDrawerInterface {
      * @param vertical specifies if the ship should be drawn vertically; if false, the ship will be horizontal
      * @return a Group representing the destroyer
      */
-    Group drawDestroyer(boolean vertical);
+    Group drawDestroyer(boolean vertical, boolean insideGrid);
 
     /**
      * Draws a submarine, represented as a Group with a size of three cells.
@@ -32,7 +33,7 @@ public interface ShipDrawerInterface {
      * @param vertical specifies if the ship should be drawn vertically; if false, the ship will be horizontal
      * @return a Group representing the submarine
      */
-    Group drawSubmarine(boolean vertical);
+    Group drawSubmarine(boolean vertical, boolean insideGrid);
 
     /**
      * Draws an aircraft carrier, represented as a Group with a size of four cells.
@@ -40,7 +41,7 @@ public interface ShipDrawerInterface {
      * @param vertical specifies if the ship should be drawn vertically; if false, the ship will be horizontal
      * @return a Group representing the aircraft carrier
      */
-    Group drawAircraftCarrier(boolean vertical);
+    Group drawAircraftCarrier(boolean vertical, boolean insideGrid);
 
     /**
      * Creates a rectangle with specified dimensions, position, and color properties.
