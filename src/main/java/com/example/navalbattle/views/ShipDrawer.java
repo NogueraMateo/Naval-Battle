@@ -1,6 +1,7 @@
 package com.example.navalbattle.views;
 
 import javafx.scene.Group;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
@@ -23,7 +24,7 @@ public class ShipDrawer implements ShipDrawerInterface{
     private final int CELL_SIZE = 30;
 
     @Override
-    public Group drawFrigate() {
+    public Group drawFrigate(boolean vertical) {
         double shipLength = this.CELL_SIZE;
         Path mainContainer = new Path();
 
@@ -53,11 +54,15 @@ public class ShipDrawer implements ShipDrawerInterface{
 
         Rectangle smallWindow = rectangle((int) shipLength - 15, (int) SHIP_HEIGHT / 2 - 3, 4, 8, "#2B303B", "#00000000");
         Rectangle bigWindow = rectangle(3, 5, 8 , 16, "#2B303B", "#00000000");
-        return new Group(mainContainer, subContainer, smallWindow, bigWindow);
+        Group frigateGroup = new Group(mainContainer, subContainer, smallWindow, bigWindow);
+        if (vertical) {
+            frigateGroup.setRotate(90);
+        }
+        return frigateGroup;
     }
 
     @Override
-    public Group drawDestroyer(boolean vertical) {
+    public Group drawDestroyer(boolean vertical, boolean insideGrid) {
         double shipLength = this.CELL_SIZE * 2;
 
         Path mainContainer = new Path();
@@ -98,14 +103,16 @@ public class ShipDrawer implements ShipDrawerInterface{
 
         if (vertical) {
             destroyerGroup.setRotate(90);
-            destroyerGroup.setTranslateX(-16);
-            destroyerGroup.setTranslateY(17);
+            if (insideGrid) {
+                destroyerGroup.setTranslateX(-16);
+                destroyerGroup.setTranslateY(17);
+            }
         }
         return destroyerGroup;
     }
 
     @Override
-    public Group drawSubmarine(boolean vertical) {
+    public Group drawSubmarine(boolean vertical, boolean insideGrid) {
         double shipLength = this.CELL_SIZE * 3;
         Path mainContainer = new Path();
         mainContainer.getElements().addAll(
@@ -151,14 +158,16 @@ public class ShipDrawer implements ShipDrawerInterface{
 
         if (vertical) {
             submarineGroup.setRotate(90);
-            submarineGroup.setTranslateX(-31);
-            submarineGroup.setTranslateY(32);
+            if (insideGrid) {
+                submarineGroup.setTranslateX(-31);
+                submarineGroup.setTranslateY(32);
+            }
         }
         return submarineGroup;
     }
 
     @Override
-    public Group drawAircraftCarrier(boolean vertical) {
+    public Group drawAircraftCarrier(boolean vertical, boolean insideGrid) {
         double shipLength = this.CELL_SIZE * 4 + 8;
 
         Path mainContainer = new Path();
@@ -235,8 +244,10 @@ public class ShipDrawer implements ShipDrawerInterface{
 
         if (vertical) {
             aircraftCarrierGroup.setRotate(90);
-            aircraftCarrierGroup.setTranslateX(-51);
-            aircraftCarrierGroup.setTranslateY(50);
+            if (insideGrid) {
+                aircraftCarrierGroup.setTranslateX(-51);
+                aircraftCarrierGroup.setTranslateY(50);
+            }
         }
 
         return aircraftCarrierGroup;
