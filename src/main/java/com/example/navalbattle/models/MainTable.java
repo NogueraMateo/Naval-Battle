@@ -2,6 +2,7 @@ package com.example.navalbattle.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,9 +19,21 @@ public class MainTable {
     private int[][] board = new int[10][10];
 
     /**
-     * ArrayList of ship type objects
+     * A list that stores the coordinates and related data for each ship.
+     * Each entry in the list is an integer array representing the coordinates and other relevant data for a ship.
+     * The array contains:
+     * - row index (int)
+     * - column index (int)
+     * - additional ship-related data (e.g., orientation, type).
+
+     * This list is populated with ship data and is used for placing ships on the board.
      */
-    ArrayList<Ship> ships = new ArrayList<Ship>();
+    private final List<int[]> shipCoordinatesList = new ArrayList<>();
+
+    /**
+     * ArrayList of ship
+     */
+    ArrayList<Ship> ships = new ArrayList<>();
 
     /**
      * Constructor for the Machine class. Initializes the game board,
@@ -32,7 +45,6 @@ public class MainTable {
         ships.add(new Ship(2,2, 3));
         ships.add(new Ship(1,1, 4));
         startBoard();
-        showBoard();
     }
 
     public MainTable(int[][] board){
@@ -42,7 +54,6 @@ public class MainTable {
         ships.add(new Ship(1,1, 0));
         this.board = board;
         System.out.println("Previous Main Table loaded");
-        showBoard();
     }
 
     /**
@@ -82,6 +93,12 @@ public class MainTable {
                                 board[row + j][column] = aux;
                             }
                         }
+                        int endX = horizontal ? row : row + size - 1;
+                        int endY = horizontal ? column + size - 1 : column;
+                        int orientation = horizontal ? 1 : 0;
+
+                        shipCoordinatesList.add(new int[]{row, column, endX, endY, orientation, aux});
+
                         placed = true;
                     }
                 }
@@ -133,6 +150,20 @@ public class MainTable {
      */
     public int[][] getBoard() {
         return board;
+    }
+
+    /**
+     * Retrieves the list of ship coordinates.
+     * This list contains the coordinates and related data for each ship, such as position, orientation, and type.
+     *
+     * @return A list of integer arrays where each array represents the coordinates and other relevant data of a ship.
+     *         Each array contains:
+     *         - row index (int)
+     *         - column index (int)
+     *         - some other ship-related data (e.g., orientation, type).
+     */
+    public List<int[]> getShipCoordinatesList() {
+        return shipCoordinatesList;
     }
 
     /**
