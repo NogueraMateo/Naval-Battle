@@ -1,5 +1,7 @@
 package com.example.navalbattle.models;
 
+import javafx.scene.Group;
+
 import java.util.ArrayList;
 
 /**
@@ -128,5 +130,15 @@ public class PositionTable {
             }
             System.out.println();
         }
+    }
+
+    public boolean isBoardFull() {
+        for (Ship ship : ships) {
+            if (ship == null) continue;
+            if (ship.getShipAmount() > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -253,6 +253,40 @@ public class ShipDrawer implements ShipDrawerInterface{
         return aircraftCarrierGroup;
     }
 
+    public Group drawBomb() {
+        Path fireStar = new Path();
+        fireStar.getElements().addAll(
+                new MoveTo(10, 6),
+                new LineTo(7, 3),
+                new LineTo(10, 3),
+                new LineTo(13, -2),
+                new LineTo(16, 3),
+                new LineTo(19, 3),
+                new LineTo(16, 6),
+                new LineTo(19, 11),
+                new LineTo(13, 6),
+                new LineTo(7, 11),
+                new LineTo(10, 6)
+        );
+        fireStar.setStroke(Color.web("#e16717"));
+        fireStar.setFill(Color.web("#fecb00"));
+
+        Circle baseCircle = new Circle(SHIP_HEIGHT / 2);
+        baseCircle.setFill(Color.web("#000"));
+        baseCircle.setStroke(Color.web("#fff"));
+        baseCircle.setStrokeWidth(1);
+        baseCircle.setTranslateY(10);
+        return new Group(baseCircle, fireStar);
+    }
+
+    public Group drawMissedShot() {
+        Line diagonal1 = drawLine(CELL_SIZE - 28, CELL_SIZE - 2, CELL_SIZE - 2, 6, "#ac1b1b", 3);
+        Line diagonal2 = drawLine(6, 6, CELL_SIZE - 2, CELL_SIZE - 2, "#ac1b1b", 3);
+
+        return new Group(diagonal1, diagonal2);
+
+    }
+
     @Override
     public Rectangle rectangle(int x, int y, double width, double height, String fillHex, String strokeHex) {
         Rectangle bigWindow = new Rectangle(width, height);

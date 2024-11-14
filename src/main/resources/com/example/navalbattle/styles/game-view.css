@@ -75,13 +75,13 @@
     -fx-cursor: "hand";
 }
 
-#placeShips, #revealFleet, #startGame {
+#rotateShip, #revealFleet, #startGame {
     -fx-font-family: "Chewy";
     -fx-font-size: 1.7em;
     -fx-background-radius: 16px;
 }
 
-#placeShips {
+#rotateShip {
     -fx-background-color: #edeae4;
     -fx-text-fill: #274154;
 }
@@ -116,11 +116,9 @@
 #messageLabel {
     -fx-font-family: "Chewy";
     -fx-font-size: 1.3em;
-}
-
-.error {
     -fx-text-fill: #b23535;
 }
+
 
 #descriptionLabel {
     -fx-font-family: "Chewy";
