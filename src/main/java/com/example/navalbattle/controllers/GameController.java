@@ -5,21 +5,16 @@ import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-
-import java.sql.Array;
-import java.sql.Time;
 
 import java.util.List;
 
@@ -35,9 +30,6 @@ public class GameController {
 
     @FXML
     private GridPane machinesFleet;
-
-    @FXML
-    private Button orientationButton;
 
     @FXML
     private GridPane selectionGrid;
@@ -63,13 +55,8 @@ public class GameController {
     @FXML
     private Button startGame;
 
-    @FXML
-    private VBox parentContainer;
-
     private final ShipDrawer drawer;
-
     private final MainTable mainTable;
-
     private PositionTable positionTable = new PositionTable();
 
     private Integer gridPaneRow;
@@ -81,8 +68,8 @@ public class GameController {
     private Group destroyerGhost;
     private Group submarineGhost;
     private Group aircraftGhost;
-
     private Group currentGhost;
+    private Rotate rotate;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -95,47 +82,61 @@ public class GameController {
 
     @FXML
     private void initialize() {
+        setCellsEvents();
         setUpShipEvents();
+        setGhostShips();
+    }
+
+    private void setGhostShips() {
+        rotate = new Rotate(0, 0, 0);
         frigateGhost = drawer.drawFrigate(false);
+        frigateGhost.getTransforms().add(rotate);
         destroyerGhost = drawer.drawDestroyer(false, false);
+        destroyerGhost.getTransforms().add(rotate);
         submarineGhost = drawer.drawSubmarine(false, false);
+        submarineGhost.getTransforms().add(rotate);
         aircraftGhost = drawer.drawAircraftCarrier(false, false);
+        aircraftGhost.getTransforms().add(rotate);
+    }
+
+    private void setCellsEvents() {
+        for (Node node : userFleet.getChildren()) {
+            node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    placeShip(node);
+                } else if (event.getButton() == MouseButton.SECONDARY) {
+                    changeOrientation();
+                }
+            });
+        }
     }
 
     private void setUpShipEvents() {
         Group ship1 = drawer.drawFrigate(true);
         ship1.getStyleClass().add("ship");
         ship1.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 1;
-            orientationButton.setDisable(false);
-            setShipGhost(shipType);
-            descriptionLabel.setText("Frigate: A fast and light ship, occupies 1 cells.");
-            System.out.println(shipType);});
+            showGhostShip(shipType);
+            descriptionLabel.setText("Frigate: A fast and light ship, occupies 1 cells.");});
 
         Group ship2 = drawer.drawDestroyer(true, false);
         ship2.getStyleClass().add("ship");
         ship2.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             shipType = 2;
-            setShipGhost(shipType);
-            orientationButton.setDisable(false);
-            descriptionLabel.setText("Destroyer: An agile combat ship, occupies 2 cells.");
-            System.out.println(shipType);});
+            showGhostShip(shipType);
+            descriptionLabel.setText("Destroyer: An agile combat ship, occupies 2 cells.");});
 
         Group ship3 = drawer.drawSubmarine(true, false);
         ship3.getStyleClass().add("ship");
         ship3.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             shipType = 3;
-            setShipGhost(shipType);
-            orientationButton.setDisable(false);
-            descriptionLabel.setText("Submarine: A stealthy underwater attack ship, occupies 3 cells.");
-            System.out.println(shipType);});
+            showGhostShip(shipType);
+            descriptionLabel.setText("Submarine: A stealthy underwater attack ship, occupies 3 cells.");});
 
         Group ship4 = drawer.drawAircraftCarrier(true, false);
         ship4.getStyleClass().add("ship");
         ship4.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {shipType = 4;
-            setShipGhost(shipType);
-            orientationButton.setDisable(false);
-            descriptionLabel.setText("Carrier: A massive ship that carries aircraft, occupies 4 cells");
-            System.out.println(shipType);});
+            showGhostShip(shipType);
+            descriptionLabel.setText("Carrier: A massive ship that carries aircraft, occupies 4 cells");});
 
         setSampleShips(ship1, ship2, ship3, ship4);
 
@@ -184,10 +185,8 @@ public class GameController {
     }
 
 
-    @FXML
-    private void getGridPaneCoordinates(MouseEvent event) {
+    private void placeShip(Node clickedNode) {
         boolean checkPosition = false, checkAmount = false;
-        Node clickedNode = (Node) event.getSource();
         gridPaneRow = GridPane.getRowIndex(clickedNode);
         gridPaneCol = GridPane.getColumnIndex(clickedNode);
 
@@ -197,10 +196,10 @@ public class GameController {
         try {
             checkPosition = positionTable.checkPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
         } catch (NullPointerException e) {
-            showMessage("PLEASE SELECT A SHIP TO PLACE", "error");
+            showMessage("PLEASE SELECT A SHIP TO PLACE");
             return;
         } catch (ArrayIndexOutOfBoundsException e) {
-            showMessage("THE SHIP DOESN'T FIT" + ((shipOrientation == 0) ? "VERTICALLY" : "HORIZONTALLY"), "error");
+            showMessage("THE SHIP DOESN'T FIT" + ((shipOrientation == 0) ? "VERTICALLY" : "HORIZONTALLY"));
         }
         checkAmount = positionTable.checkAmount(shipType);
 
@@ -212,32 +211,27 @@ public class GameController {
         if (checkPosition) {
             if (checkAmount) {
                 positionTable.setShipPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
-                System.out.println("++++++++++++++++++++++++++MOVEMENT++++++++++++++++++++++++++");
-                positionTable.printBoard();
                 switch (shipType){
                     case 1: Group frigate = drawer.drawFrigate(false);
                         userFleet.add(frigate, gridPaneCol, gridPaneRow);
-                        updateCounter(1);
                         break;
                     case 2: Group destroyer = drawer.drawDestroyer(orientation, true);
                         userFleet.add(destroyer, gridPaneCol, gridPaneRow);
-                        updateCounter(2);
                         break;
                     case 3: Group submarine = drawer.drawSubmarine(orientation, true);
                         userFleet.add(submarine, gridPaneCol, gridPaneRow);
-                        updateCounter(3);
                         break;
                     case 4: Group aircraft = drawer.drawAircraftCarrier(orientation, true);
                         userFleet.add(aircraft, gridPaneCol, gridPaneRow);
-                        updateCounter(4);
                         break;
                 }
+                updateCounter(shipType);
             }
             else
-                showMessage("THERE IS NO AMOUNT OF THIS SHIP", "error");
+                showMessage("THERE IS NO AMOUNT OF THIS SHIP");
         }
         else
-            showMessage("THERE IS A SHIP ALREADY", "error");
+            showMessage("THERE IS A SHIP ALREADY");
 
         // Activates 'Start Game' Button
         if (positionTable.isBoardFull()) {
@@ -280,17 +274,15 @@ public class GameController {
         }
     }
 
-    @FXML
-    private void getShipOrientation(ActionEvent event) {
+    private void changeOrientation() {
         if (shipOrientation == 0){
-            orientationButton.setText("Orientation: Vertical");
+            rotate.setAngle(90);
             shipOrientation = 1;
         }
-        else if (shipOrientation == 1){
-            orientationButton.setText("Orientation: Horizontal");
+        else if (shipOrientation == 1) {
+            rotate.setAngle(0);
             shipOrientation = 0;
         }
-        System.out.println(shipOrientation);
     }
 
     /**
@@ -298,8 +290,8 @@ public class GameController {
      * so the user has a preview of the ship on the grid.
      * @param shipType
      */
-    private void setShipGhost(int shipType) {
-
+    private void showGhostShip(int shipType) {
+        shipOrientation = 0;
         // If there is a ship already selected then it removes the current ghost
         if (currentGhost != null) {
             userFleet.getChildren().remove(currentGhost);
@@ -330,17 +322,15 @@ public class GameController {
         userFleet.setOnMouseMoved(event -> {
             double mouseX = event.getX();
             double mouseY = event.getY();
-
             currentGhost.setTranslateX(mouseX);
             currentGhost.setTranslateY(mouseY);
+
         });
     }
 
-    private void showMessage(String msg, String msgType) {
+    private void showMessage(String msg) {
         messageLabel.setText(msg);
         messageLabel.setVisible(true);
-        messageLabel.getStyleClass().removeAll();
-        messageLabel.getStyleClass().add(msgType);
         FadeTransition transition = new FadeTransition(Duration.seconds(2), messageLabel);
         transition.setFromValue(1);
         transition.setToValue(0);
