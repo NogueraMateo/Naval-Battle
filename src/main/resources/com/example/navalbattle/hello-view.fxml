@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.navalbattle.controllers.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
+<VBox fx:id="baseVBox" alignment="CENTER" fillWidth="false" prefHeight="636.0" prefWidth="954.0" spacing="20.0" stylesheets="@styles/hello-view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <VBox alignment="CENTER" prefHeight="128.0" prefWidth="355.0">
+        <children>
+            <Label fx:id="labelTitle" alignment="CENTER" prefHeight="44.0" prefWidth="355.0" text="NAVAL BATTLE" textAlignment="CENTER">
+                <font>
+                    <Font size="57.0" />
+                </font>
+            </Label>
+            <Button fx:id="buttonInstruction" mnemonicParsing="false" prefHeight="41.0" prefWidth="104.0" text="Instructions" />
+        </children>
+    </VBox>
+    <VBox prefHeight="86.0" prefWidth="192.0">
+        <children>
+
+            <Label fx:id="usernameTextLabel" prefHeight="18.0" prefWidth="78.0" text="Username">
+                <VBox.margin>
+                    <Insets left="15.0" />
+                </VBox.margin>
+                <font>
+                    <Font size="19.0" />
+                </font>
+            </Label>
+            <TextField fx:id="inputUsername" alignment="CENTER" prefHeight="26.0" prefWidth="164.0" />
+        </children>
+    </VBox>
+    <Button fx:id="buttonPlay" onAction="#onHelloButtonPlay" prefHeight="51.0" prefWidth="104.0" text="PLAY">
+        <font>
+            <Font size="19.0" />
+        </font>
+    </Button>
 </VBox>
