@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="baseHBox" fx:id="parentContainer" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
+<VBox id="baseHBox" fx:id="parentContainer" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
    <children>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1208.0" spacing="50.0" stylesheets="@styles/game-view.css">
          <children>
@@ -332,9 +332,10 @@
                   </HBox>
                </children>
             </VBox>
+            <Button fx:id="fireButton" mnemonicParsing="false" text="Fire" visible="false" />
          </children>
       </HBox>
       <Label id="messageLabel" fx:id="messageLabel" visible="false" />
-      <Button id="startGame" fx:id="startGame" alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
+      <Button id="startGame" fx:id="startGame" alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startPlayerTurn" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
    </children>
 </VBox>

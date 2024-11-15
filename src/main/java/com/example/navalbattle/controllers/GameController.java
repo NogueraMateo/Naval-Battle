@@ -5,6 +5,7 @@ import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -53,10 +54,13 @@ public class GameController {
     private Label descriptionLabel;
 
     @FXML
+    private Button fireButton;
+
+    @FXML
     private Button startGame;
 
     private final ShipDrawer drawer;
-    private final MainTable mainTable;
+    private MainTable mainTable = new MainTable();
     private PositionTable positionTable = new PositionTable();
 
     private Integer gridPaneRow;
@@ -70,6 +74,9 @@ public class GameController {
     private Group aircraftGhost;
     private Group currentGhost;
     private Rotate rotate;
+
+    private boolean gameOver;
+    private boolean playerTurn = false;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -85,6 +92,11 @@ public class GameController {
         setCellsEvents();
         setUpShipEvents();
         setGhostShips();
+    }
+    @FXML
+    private void startPlayerTurn(ActionEvent event) {
+        startGame.setDisable(true);
+        playerTurn = true;
     }
 
     private void setGhostShips() {
@@ -104,6 +116,15 @@ public class GameController {
             node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     placeShip(node);
+                } else if (event.getButton() == MouseButton.SECONDARY) {
+                    changeOrientation();
+                }
+            });
+        }
+        for (Node node : machinesFleet.getChildren()){
+            node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    playerShoot(mainTable.getBoard(), node);
                 } else if (event.getButton() == MouseButton.SECONDARY) {
                     changeOrientation();
                 }
@@ -184,6 +205,38 @@ public class GameController {
         };
     }
 
+    private void turnManagement(boolean playerTurn) {
+        if (playerTurn) {
+            fireButton.setVisible(true);
+            fireButton.setDisable(false);
+        }
+        else {
+            fireButton.setDisable(true);
+        }
+    }
+
+    private void playerShoot(int[][] machineTable, Node clickedNode){
+        Integer machinePaneRow = GridPane.getRowIndex(clickedNode);
+        Integer machinePaneCol = GridPane.getColumnIndex(clickedNode);
+
+        if (machinePaneRow == null) gridPaneRow = 0;
+        if (machinePaneCol == null) gridPaneCol = 0;
+
+        if (machineTable[machinePaneRow][machinePaneCol] == 0){
+            machineTable[machinePaneRow][machinePaneCol] = 5;
+            Group missedShot = drawer.drawMissedShot();
+            machinesFleet.add(missedShot, machinePaneCol, machinePaneRow);
+            System.out.println("+++++++++++");
+            mainTable.printMainBoard();
+        }
+        else if (machineTable[machinePaneRow][machinePaneCol] != 0 && machineTable[machinePaneRow][machinePaneCol] != 5){
+            machineTable[machinePaneRow][machinePaneCol] = 6;
+            Group bomb = drawer.drawBomb();
+            machinesFleet.add(bomb, machinePaneCol, machinePaneRow);
+            System.out.println("+++++++++++");
+            mainTable.printMainBoard();
+        }
+    }
 
     private void placeShip(Node clickedNode) {
         boolean checkPosition = false, checkAmount = false;
