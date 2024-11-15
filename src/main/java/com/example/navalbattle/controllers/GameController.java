@@ -5,11 +5,15 @@ import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -71,6 +75,13 @@ public class GameController {
     private Group currentGhost;
     private Rotate rotate;
 
+    private Image crosshairImg;
+    private ImageView crosshairView;
+
+    private EventHandler<MouseEvent> mouseEnteredHandler;
+    private EventHandler<MouseEvent> mouseExitedHandler;
+    private EventHandler<MouseEvent> mouseMovedHandler;
+
     /**
      * Constructs a new GameController and initializes a ShipDrawer
      * to handle the drawing of various ship types.
@@ -78,10 +89,16 @@ public class GameController {
     public GameController() {
         drawer = new ShipDrawer();
         mainTable = new MainTable();
+
+        crosshairImg = new Image(getClass().getResourceAsStream("/com/example/navalbattle/images/Scope.png"));
+        crosshairView = new ImageView(crosshairImg);
+        crosshairView.setFitWidth(55);
+        crosshairView.setFitHeight(55);
     }
 
     @FXML
     private void initialize() {
+
         setCellsEvents();
         setUpShipEvents();
         setGhostShips();
@@ -335,5 +352,45 @@ public class GameController {
         transition.setFromValue(1);
         transition.setToValue(0);
         transition.play();
+    }
+
+    /**
+     * This method sets some event filters to the Machine's Fleet so
+     * a cross-hair is shown on the Machine's Fleet when the user
+     * has to shoot.
+     */
+    private void setScopePointer() {
+        machinesFleet.add(crosshairView, 0, 0);
+        crosshairView.setVisible(false);
+
+        mouseEnteredHandler = mouseEvent -> {
+            machinesFleet.setCursor(Cursor.DISAPPEAR);
+            crosshairView.setVisible(true);
+        };
+
+        mouseExitedHandler = mouseEvent-> {
+            machinesFleet.setCursor(Cursor.DEFAULT);
+            crosshairView.setVisible(false);
+        };
+
+        mouseMovedHandler = mouseEvent -> {
+            double mouseX = mouseEvent.getX();
+            double mouseY = mouseEvent.getY();
+            crosshairView.setTranslateX(mouseX - 20);
+            crosshairView.setTranslateY(mouseY);};
+
+        machinesFleet.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEnteredHandler);
+        machinesFleet.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseExitedHandler);
+        machinesFleet.addEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
+    }
+
+    /**
+     * This method removes all the event filters set to the Machines Fleet.
+     * This is supposed to be used when the machine has to shoot.
+     */
+    private void removeScopePointer() {
+        machinesFleet.removeEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEnteredHandler);
+        machinesFleet.removeEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseExitedHandler);
+        machinesFleet.removeEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
     }
 }
