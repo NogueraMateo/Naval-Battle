@@ -7,21 +7,30 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="baseVBox" alignment="CENTER" fillWidth="false" prefHeight="636.0" prefWidth="954.0" spacing="20.0" stylesheets="@styles/hello-view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.HelloController">
+<VBox fx:id="baseVBox" alignment="TOP_CENTER" fillWidth="false" prefHeight="600.0" prefWidth="600.0" spacing="20.0" stylesheets="@styles/hello-view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-    <VBox alignment="CENTER" prefHeight="128.0" prefWidth="355.0">
+    <VBox alignment="CENTER" prefHeight="152.0" prefWidth="572.0">
         <children>
-            <Label fx:id="labelTitle" alignment="CENTER" prefHeight="44.0" prefWidth="355.0" text="NAVAL BATTLE" textAlignment="CENTER">
+            <Label fx:id="labelTitle" alignment="CENTER" prefHeight="81.0" prefWidth="493.0" text="NAVAL BATTLE" textAlignment="CENTER">
                 <font>
-                    <Font size="57.0" />
+                    <Font size="80.0" />
                 </font>
+            <VBox.margin>
+               <Insets left="10.0" />
+            </VBox.margin>
             </Label>
-            <Button fx:id="buttonInstruction" mnemonicParsing="false" prefHeight="41.0" prefWidth="104.0" text="Instructions" />
+            <Button fx:id="buttonInstruction" mnemonicParsing="false" onAction="#onActionButtonInstructions" prefHeight="43.0" prefWidth="135.0" text="Instructions">
+            <font>
+               <Font size="19.0" />
+            </font></Button>
         </children>
+      <VBox.margin>
+         <Insets top="30.0" />
+      </VBox.margin>
     </VBox>
-    <VBox prefHeight="86.0" prefWidth="192.0">
+    <VBox prefHeight="69.0" prefWidth="192.0">
         <children>
 
             <Label fx:id="usernameTextLabel" prefHeight="18.0" prefWidth="78.0" text="Username">
@@ -34,10 +43,16 @@
             </Label>
             <TextField fx:id="inputUsername" alignment="CENTER" prefHeight="26.0" prefWidth="164.0" />
         </children>
+      <VBox.margin>
+         <Insets top="20.0" />
+      </VBox.margin>
     </VBox>
     <Button fx:id="buttonPlay" onAction="#onHelloButtonPlay" prefHeight="51.0" prefWidth="104.0" text="PLAY">
         <font>
             <Font size="19.0" />
         </font>
+      <VBox.margin>
+         <Insets top="20.0" />
+      </VBox.margin>
     </Button>
 </VBox>
