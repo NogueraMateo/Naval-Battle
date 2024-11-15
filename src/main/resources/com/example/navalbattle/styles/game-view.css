@@ -70,10 +70,6 @@
     -fx-border-color: #274154;
 }
 
-.machineCell:hover {
-    -fx-background-color: #4d7499;
-    -fx-cursor: "hand";
-}
 
 #rotateShip, #revealFleet, #startGame {
     -fx-font-family: "Chewy";
@@ -100,6 +96,9 @@
 
 .ship:hover {
     -fx-cursor: hand;
+    -fx-opacity: 0.8;
+    -fx-scale-x: 1.1; /* Incrementa el tamaño al pasar el mouse */
+    -fx-scale-y: 1.1;
 }
 
 #selectionGrid {
