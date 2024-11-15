@@ -1,0 +1,91 @@
+@font-face {
+    font-family: 'Chewy';
+    src: url("../fonts/Chewy-Regular.ttf");
+}
+
+#baseVBox {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 600px;
+    -fx-background-image: url("../images/background.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-transition: none;
+}
+
+#labelTitle {
+    -fx-font-family: "Chewy";
+    -fx-text-fill: #000;
+}
+
+#inputUsername {
+    -fx-font-family: "Chewy";
+    -fx-max-width: 190px;
+    -fx-font-size: 100%;
+    -fx-padding: 0.8em;
+    -fx-border-color: black;
+    -fx-background-color: transparent;
+    -fx-border-radius: 20px;
+    -fx-background-insets: 0;
+    -fx-text-fill: #000;
+}
+
+#buttonPlay {
+    -fx-font-size: 20px;
+    -fx-font-family: "Chewy";
+    -fx-text-transform: uppercase;
+    -fx-letter-spacing: 2.5px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #000;
+    -fx-background-color: #fff;
+    -fx-border-color: transparent;
+    -fx-border-radius: 45px;
+    -fx-background-radius: 45px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.1), 8, 0.0, 0, 8);
+    -fx-cursor: hand;
+    -fx-outline: none;
+    -fx-transition: background-color 0.7s ease, text-fill 0.7s ease, -fx-translate-y 0.7s ease, -fx-effect 0.7s ease;
+}
+
+#buttonPlay:hover {
+    -fx-background-color: #274154;
+    -fx-effect: dropshadow(one-pass-box, rgb(66, 108, 141), 15, 0.0, 0, 15);
+    -fx-text-fill: #fff;
+    -fx-translate-y: -2px;
+}
+
+#buttonPlay:pressed {
+    -fx-translate-y: -1px;
+}
+
+#usernameTextLabel {
+    -fx-font-family: Chewy;
+    -fx-text-fill: #000;
+}
+
+#buttonInstruction {
+    -fx-background-color: #274154;
+    -fx-font-family: "Chewy";
+    -fx-text-fill: White;
+    -fx-border-color: transparent;
+    -fx-border-radius: 45px;
+    -fx-background-radius: 45px;
+    -fx-font-size: 20px;
+    -fx-text-transform: uppercase;
+    -fx-letter-spacing: 2.5px;
+    -fx-font-weight: 500;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.1), 8, 0.0, 0, 8);
+    -fx-cursor: hand;
+    -fx-outline: none;
+    -fx-transition: background-color 0.7s ease, text-fill 0.7s ease, -fx-translate-y 0.7s ease, -fx-effect 0.7s ease;
+}
+#buttonInstruction:hover {
+    -fx-background-color: #274154;
+    -fx-effect: dropshadow(one-pass-box, rgb(66, 108, 141), 15, 0.0, 0, 15);
+    -fx-text-fill: #fff;
+    -fx-translate-y: -2px;
+}
+
+#buttonInstruction:pressed {
+    -fx-translate-y: -1px;
+}
