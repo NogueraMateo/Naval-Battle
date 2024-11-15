@@ -29,6 +29,8 @@ public class MainTable {
      * This list is populated with ship data and is used for placing ships on the board.
      */
     private final List<int[]> shipCoordinatesList = new ArrayList<>();
+    private final List<int[]> shots = new ArrayList<>();
+    private final Random random = new Random();
 
     /**
      * ArrayList of ship
@@ -134,14 +136,87 @@ public class MainTable {
     }
 
     /**
-     * Generates a random shot on the board by selecting a random coordinate.
-     * @return an integer array containing the x (row) and y (column) coordinates of the shot
+     * Generates a random shot that has not been previously shot at.
+
+     * This method generates a random (x, y) coordinate pair for a shot within a 10x10 grid.
+     * It ensures that the generated shot has not been taken before by checking against the list of
+     * previous shots. If the shot has already been taken, it tries again until a unique shot is found.
+     *
+     * @return an array of two integers representing the (x, y) coordinates of the shot.
      */
-    public int[] shot(){
-        Random random = new Random();
-        int x = random.nextInt(10);
-        int y = random.nextInt(10);
+    public int[] shot() {
+        int x, y;
+        boolean isUnique;
+
+        do {
+            x = random.nextInt(10);
+            y = random.nextInt(10);
+            isUnique = true;
+
+            for (int[] shot : shots) {
+                if (shot[0] == x && shot[1] == y) {
+                    isUnique = false;
+                    break;
+                }
+            }
+        } while (!isUnique);
+
+        shots.add(new int[]{x, y});
         return new int[]{x, y};
+    }
+
+    /**
+     * Generates a smart shot based on the last shot fired.
+
+     * This method attempts to generate a shot near the last shot taken. It checks in all four
+     * possible directions (up, down, left, right) from the last shot's coordinates. If a valid
+     * shot (within bounds and not previously shot at) is found, it is chosen as the next shot.
+     * If no valid shot is found, it defaults to a random shot by calling the {@link #shot()} method.
+     *
+     * @return an array of two integers representing the (x, y) coordinates of the smart shot.
+     */
+    public int[] smartShot() {
+        if (shots.isEmpty()) {
+            return shot();
+        }
+
+        int[] lastShot = shots.get(shots.size() - 1);
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        for (int[] direction : directions) {
+            int newX = lastShot[0] + direction[0];
+            int newY = lastShot[1] + direction[1];
+
+            if (newX >= 0 && newX < 10 && newY >= 0 && newY < 10) {
+                int[] newShot = new int[]{newX, newY};
+
+                if (!isShot(newShot)) {
+                    shots.add(newShot);
+                    return newShot;
+                }
+            }
+        }
+
+        return shot();
+    }
+
+    /**
+     * Checks if a shot has already been taken at the specified coordinates.
+
+     * This helper method checks if a given shot (represented by a pair of coordinates)
+     * has already been added to the list of previous shots. It returns true if the shot
+     * has already been taken, otherwise false.
+     *
+     * @param shot an array of two integers representing the (x, y) coordinates of the shot to check.
+     * @return true if the shot has already been taken, false otherwise.
+     */
+    private boolean isShot(int[] shot) {
+        for (int[] existingShot : shots) {
+            if (existingShot[0] == shot[0] && existingShot[1] == shot[1]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -166,29 +241,5 @@ public class MainTable {
         return shipCoordinatesList;
     }
 
-    /**
-     * Displays the current state of the board in the console.
-     * Cells with value 0 display as '~' (water) and cells with value 1, 2, 3 or 4 display the first letter of the ship type
-     */
-    public void showBoard() {
-        System.out.println("   0 1 2 3 4 5 6 7 8 9");
-        System.out.println("  ---------------------");
-        for (int fila = 0; fila < board.length; fila++) {
-            System.out.print(fila + " | ");
-            for (int columna = 0; columna < board[fila].length; columna++) {
-                if (board[fila][columna] == 0) {
-                    System.out.print("~ ");
-                } else if (board[fila][columna] == 4) {
-                    System.out.print("P ");
-                } else if (board[fila][columna] == 3) {
-                    System.out.print("S ");
-                } else if (board[fila][columna] == 2) {
-                    System.out.print("D ");
-                } else if (board[fila][columna] == 1) {
-                    System.out.print("F ");
-                }
-            }
-            System.out.println();
-        }
-    }
+
 }
