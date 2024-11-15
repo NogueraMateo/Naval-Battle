@@ -4,7 +4,7 @@
 }
 
 #baseHBox {
-    -fx-background-color: #9fbec4;
+    -fx-background-image: url("../images/game-background.jpg");
 }
 
 #userBaseHBox, #machineBaseHBox {
