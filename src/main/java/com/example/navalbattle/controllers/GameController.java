@@ -1,13 +1,12 @@
 package com.example.navalbattle.controllers;
 
-
 import com.example.navalbattle.models.GameModel;
-import com.example.navalbattle.models.MainTable;
-import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.models.Ship;
 import com.example.navalbattle.views.GameView;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,37 +41,13 @@ import java.util.Optional;
  */
 public class GameController {
     @FXML
-    private GridPane userFleet;
+    private GridPane userFleet, machinesFleet, selectionGrid;
 
     @FXML
-    private GridPane machinesFleet;
+    private Label destroyerCounter, frigateCounter, submarineCounter, aircraftCounter, messageLabel, descriptionLabel, labelPlayerName;
 
     @FXML
-    private GridPane selectionGrid;
-
-    @FXML
-    private Label frigateCounter;
-
-    @FXML
-    private Label destroyerCounter;
-
-    @FXML
-    private Label submarineCounter;
-
-    @FXML
-    private Label aircraftCounter;
-
-    @FXML
-    private Label messageLabel;
-
-    @FXML
-    private Label descriptionLabel, labelPlayerName;
-
-    @FXML
-    private Button fireButton;
-
-    @FXML
-    private Button startGame;
+    private Button fireButton, playAgain, startGame;
 
     @FXML
     private Button revealFleet;
@@ -81,7 +56,7 @@ public class GameController {
     private HBox revealFleetContainer;
 
     private final ShipDrawer drawer;
-    private final GameModel gameModel;
+    private GameModel gameModel;
 
     private Integer gridPaneRow;
     private Integer gridPaneCol;
@@ -426,6 +401,7 @@ public class GameController {
             userFleet.setDisable(true);
             machinesFleet.setDisable(true);
             fireButton.setDisable(true);
+
         }
 
         if (playerShotCounter == 20){
@@ -434,6 +410,8 @@ public class GameController {
             alert.setHeaderText(null);
             alert.setContentText("The Player Won!");
             alert.showAndWait();
+            playAgain.setDisable(false);
+            playAgain.setVisible(true);
         }
         else if (machineShotCounter == 20){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -441,63 +419,65 @@ public class GameController {
             alert.setHeaderText(null);
             alert.setContentText("The Machine Won!");
             alert.showAndWait();
+            playAgain.setDisable(false);
+            playAgain.setVisible(true);
         }
     }
 
     private void turnManagement(){
         if (playerTurn) {
-            fireButton.setDisable(true);
+            fireButton.setDisable(false);
             machinesFleet.setDisable(false);
             setScopePointer();
         }
         else {
             removeScopePointer();
-            fireButton.setDisable(false);
+            fireButton.setDisable(true);
             machinesFleet.setDisable(true);
-            int[] machineRandCoordinates = new int[0];
-            if (successfulShot){
-                machineRandCoordinates = gameModel.getMainTable().smartShot();
-            } else {
-                machineRandCoordinates = gameModel.getMainTable().shot();
-            }
-            int machineRandX = machineRandCoordinates[0];
-            int machineRandY = machineRandCoordinates[1];
-            machineShoot(gameModel.getPositionTable().getBoard(), machineRandX, machineRandY);
 
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+
+            pause.setOnFinished(event -> {
+                int[] machineRandCoordinates;
+                if (successfulShot) {
+                    machineRandCoordinates = gameModel.getMainTable().smartShot();
+                } else {
+                    machineRandCoordinates = gameModel.getMainTable().shot();
+                }
+                int machineRandX = machineRandCoordinates[0];
+                int machineRandY = machineRandCoordinates[1];
+                machineShoot(gameModel.getPositionTable().getBoard(), machineRandX, machineRandY);
+                if(playerTurn){
+                    fireButton.setDisable(false);
+                }
+            });
+            pause.play();
         }
     }
 
     private void machineShoot(int[][] playerTable, int machineShootX, int machineShootY){
-        System.out.println("Machine Shot to: (" + machineShootX + ", " + machineShootY + ").");
-        System.out.println("++++++PLAYER TABLE++++++");
-        gameModel.getPositionTable().printBoard();
-
         if (playerTable[machineShootX][machineShootY] == 0){
             successfulShot = false;
             gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 5;
-            System.out.println("++++++MACHINE SHOOT TABLE+++++");
-            gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
-
             Group missedShot = drawer.drawMissedShot();
             userFleet.add(missedShot, machineShootY, machineShootX);
+            playerTurn = true;
         }
         else if(playerTable[machineShootX][machineShootY] == 1) {
             successfulShot = false;
             gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 6;
-            System.out.println("++++++MACHINE SHOOT TABLE+++++");
-            gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
-
             Group fire = drawer.drawFire();
             userFleet.add(fire, machineShootY, machineShootX);
+            playerTurn = false;
+            turnManagement();
         }
         else if (playerTable[machineShootX][machineShootY] != 0 && playerTable[machineShootX][machineShootY] != 5){
             successfulShot = true;
             gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 6;
-            System.out.println("++++++MACHINE SHOOT TABLE+++++");
-            gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
-
             Group bomb = drawer.drawBomb();
             userFleet.add(bomb, machineShootY, machineShootX);
+            playerTurn = false;
+            turnManagement();
         }
         checkSamePlayerShip();
         gameModel.saveGame();
@@ -511,29 +491,27 @@ public class GameController {
             if (machinePaneRow == null) machinePaneRow = 0;
             if (machinePaneCol == null) machinePaneCol = 0;
 
-            System.out.println("+++++++++++++++++++++++");
-            gameModel.getMainTable().printMainBoard(machineTable);
-
             if (machineTable[machinePaneRow][machinePaneCol] == 0){
                 gameModel.getPositionTable().getShotGrid()[machinePaneRow][machinePaneCol] = 5;
                 Group missedShot = drawer.drawMissedShot();
                 machinesFleet.add(missedShot, machinePaneCol, machinePaneRow);
+                playerTurn = false;
             }
             else if(machineTable[machinePaneRow][machinePaneCol] == 1) {
                 gameModel.getPositionTable().getShotGrid()[machinePaneRow][machinePaneCol] = 6;
                 Group fire = drawer.drawFire();
                 machinesFleet.add(fire, machinePaneCol, machinePaneRow);
+                playerTurn = true;
             }
             else if (machineTable[machinePaneRow][machinePaneCol] != 0 && machineTable[machinePaneRow][machinePaneCol] != 5){
                 gameModel.getPositionTable().getShotGrid()[machinePaneRow][machinePaneCol] = 6;
                 Group bomb = drawer.drawBomb();
                 machinesFleet.add(bomb, machinePaneCol, machinePaneRow);
+                playerTurn = true;
             }
             checkSameMachineShip();
-            playerTurn = false;
         }
         gameModel.saveGame();
-
     }
 
     /**
@@ -800,5 +778,18 @@ public class GameController {
         machinesFleet.removeEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEnteredHandler);
         machinesFleet.removeEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseExitedHandler);
         machinesFleet.removeEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
+    }
+
+    @FXML
+    private void playAgain(Event event) throws IOException {
+        Node source = (Node) event.getSource();
+        Stage actualStage = (Stage) source.getScene().getWindow();
+        actualStage.close();
+
+        GameView gameView = new GameView();
+        gameView.show();
+        GameController gameController = gameView.getGameController();
+        gameController.initialize(username);
+        this.gameModel = new GameModel();
     }
 }

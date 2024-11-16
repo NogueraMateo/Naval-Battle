@@ -129,3 +129,19 @@
     -fx-font-size: 1.1em;
     -fx-text-fill: #D3D3D3;
 }
+
+#playAgain {
+    -fx-font-family: "Chewy";
+    -fx-background-color: #274154;
+    -fx-text-fill: #fff;
+    -fx-font-size: 1.2em;
+    -fx-background-radius: 16px;
+}
+
+#fireButton {
+    -fx-font-family: "Chewy";
+    -fx-background-color: #ff0000;
+    -fx-text-fill: #fff;
+    -fx-font-size: 1.7em;
+    -fx-background-radius: 16px;
+}

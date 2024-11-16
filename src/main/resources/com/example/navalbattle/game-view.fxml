@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox id="baseHBox" fx:id="parentContainer" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
    <children>
@@ -332,7 +333,23 @@
                   </HBox>
                </children>
             </VBox>
-            <Button id="startGame" fx:id="fireButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#playerShootTurn" prefHeight="43.0" prefWidth="90.0" text="¡Shoot!" visible="false" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button fx:id="fireButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#playerShootTurn" prefHeight="43.0" prefWidth="90.0" text="¡Shoot!" visible="false">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="playAgain" alignment="CENTER" mnemonicParsing="false" onAction="#playAgain" prefHeight="43.0" prefWidth="90.0" text="Play Again" visible="false">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Label id="messageLabel" fx:id="messageLabel" visible="false" />
