@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="baseHBox" fx:id="parentContainer" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
+<VBox id="baseHBox" fx:id="parentContainer" alignment="CENTER" prefHeight="809.0" prefWidth="1237.0" spacing="30.0" stylesheets="@styles/game-view.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controllers.GameController">
    <children>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="1208.0" spacing="50.0" stylesheets="@styles/game-view.css">
          <children>
@@ -322,9 +322,9 @@
                         <Insets top="30.0" />
                      </VBox.margin>
                   </GridPane>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="44.0" prefWidth="425.0">
+                  <HBox fx:id="revealFleetContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="44.0" prefWidth="425.0">
                      <children>
-                        <Button id="revealFleet" fx:id="revealFleet" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="42.0" prefWidth="142.0" text="Reveal fleet" />
+                        <Button id="revealFleet" fx:id="revealFleet" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onActionRevealFleet" prefHeight="42.0" prefWidth="142.0" text="Reveal fleet" />
                      </children>
                      <VBox.margin>
                         <Insets top="80.0" />

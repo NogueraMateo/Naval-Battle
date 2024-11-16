@@ -11,19 +11,21 @@ import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -72,6 +74,12 @@ public class GameController {
     @FXML
     private Button startGame;
 
+    @FXML
+    private Button revealFleet;
+
+    @FXML
+    private HBox revealFleetContainer;
+
     private final ShipDrawer drawer;
     private final GameModel gameModel;
 
@@ -116,7 +124,7 @@ public class GameController {
     public void initialize(String username) {
         this.username = username;
         labelPlayerName.setText(username + "'s Fleet");
-        if (gameModel.existsPreviousMatch()) {
+        if (gameModel.existsPreviousMatch(username)) {
             handlePreviousMatch();
         } else {
             initializeNewMatch();
@@ -165,10 +173,12 @@ public class GameController {
             startGame.setDisable(true);
             fireButton.setVisible(true);
         }
+
+        labelPlayerName.setText(gameModel.getNickname() + "'s Fleet");
     }
 
     private void initializeNewMatch() {
-        gameModel.newMatch();
+        gameModel.newMatch(this.username);
         setCellsEvents();
         setUpShipEvents();
         setGhostShips();
@@ -308,7 +318,7 @@ public class GameController {
      * from the mainTable
      * Each ship is drawn on the board at the specified position and orientation.
      */
-    public void setFleet(boolean machine) {
+    private void setFleet(boolean machine) {
         List<int[]> shipCoordinates;
         if (machine) {
             shipCoordinates = gameModel.getMainTable().getShipCoordinatesList();
@@ -321,6 +331,7 @@ public class GameController {
             boolean vertical = (coordinates[4] == 0);
             int type = coordinates[5];
             Group ship = drawShip(type, vertical);
+            ship.getStyleClass().add("mShip");
             if (machine) {
                 machinesFleet.add(ship, column, row);
             } else {
@@ -711,6 +722,74 @@ public class GameController {
         transition.setFromValue(1);
         transition.setToValue(0);
         transition.play();
+    }
+
+    @FXML
+    private void onActionRevealFleet(ActionEvent event) {
+        showCustomModal();
+    }
+
+    private void showCustomModal() {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Reveal Fleet");
+
+        VBox dialogBox = new VBox(15);
+        dialogBox.setId("keywordContainer");
+        dialogBox.getStylesheets().add(getClass().getResource("/com/example/navalbattle/styles/keyword-modal.css").toExternalForm());
+        Label label = new Label("Enter the secret keyword to reveal the fleet");
+        label.setId("keywordLabel");
+        TextField textField = new TextField();
+        textField.setId("keywordTextField");
+        Button confirmButton = new Button("Confirm");
+        confirmButton.setId("confirmKeyword");
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setId("cancelKeyword");
+
+        confirmButton.setOnAction(event -> {
+            String keyword = textField.getText();
+            if (keyword.equalsIgnoreCase("supersecretpassword")) {
+                setFleet(true);
+                setHideButton();
+                dialog.close();
+            } else {
+                showMessage("Incorrect Keyword. Try again");
+            }
+        });
+
+        cancelButton.setOnAction(event -> dialog.close());
+
+        dialogBox.getChildren().addAll(label, textField, confirmButton, cancelButton);
+        dialogBox.setAlignment(Pos.CENTER);
+        dialogBox.setPadding(new Insets(10));
+
+        Scene dialogScene = new Scene(dialogBox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+    }
+
+    private void setHideButton() {
+        revealFleet.setVisible(false);
+        revealFleet.setManaged(false);
+        Button hideButton = new Button("Hide Fleet");
+        hideButton.setId("hideButton");
+        revealFleetContainer.getChildren().add(hideButton);
+        hideButton.setOnAction(event -> {
+            List<Node> nodesToRemove = new ArrayList<>();
+
+            for (Node node : machinesFleet.getChildren()) {
+                if (node.getStyleClass().contains("mShip")) {
+                    nodesToRemove.add(node);
+                }
+            }
+
+            machinesFleet.getChildren().removeAll(nodesToRemove);
+
+            hideButton.setVisible(false);
+            hideButton.setManaged(false);
+            revealFleet.setVisible(true);
+            revealFleet.setManaged(true);
+        });
     }
 
     /**
