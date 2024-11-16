@@ -71,7 +71,7 @@
 }
 
 
-#rotateShip, #revealFleet, #startGame {
+#rotateShip, #revealFleet, #startGame, #hideButton {
     -fx-font-family: "Chewy";
     -fx-font-size: 1.7em;
     -fx-background-radius: 16px;
@@ -82,9 +82,14 @@
     -fx-text-fill: #274154;
 }
 
-#revealFleet, #startGame {
+#revealFleet, #startGame, #hideButton {
     -fx-background-color: #274154;
     -fx-text-fill: #ffffff;
+}
+
+#revealFleet:hover, #startGame:hover, #hideButton:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #35648a;
 }
 
 .tooltip {
@@ -97,7 +102,7 @@
 .ship:hover {
     -fx-cursor: hand;
     -fx-opacity: 0.8;
-    -fx-scale-x: 1.1; /* Incrementa el tamaño al pasar el mouse */
+    -fx-scale-x: 1.1;
     -fx-scale-y: 1.1;
 }
 

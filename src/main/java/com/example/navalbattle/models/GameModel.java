@@ -14,6 +14,7 @@ public class GameModel {
     private MainTable mainTable;
     private GamePersistenceModel gamePersistenceModel;
     private MatchStatusSerializable previousMatch;
+    private String nickname;
     /**
      * Constructs a new GameModel, initializing the position and main tables.
      * Attempts to load a previous match from storage; if none is found,
@@ -21,25 +22,39 @@ public class GameModel {
      */
     public GameModel() {
         gamePersistenceModel = new GamePersistenceModel();
+
     }
 
-    public boolean existsPreviousMatch() {
+    public String getNickname() {
+        return nickname;
+    }
+
+    public MainTable getMainTable() {
+        return mainTable;
+    }
+
+    public PositionTable getPositionTable() {
+        return positionTable;
+    }
+
+    public boolean existsPreviousMatch(String nickname) {
         try {
             previousMatch = this.previousMatch();
         } catch (ClassNotFoundException | IOException e) {
-            newMatch();
+            newMatch(nickname);
             return false;
         }
         return true;
     }
 
-    public void newMatch() {
+    public void newMatch(String nickname) {
         positionTable = new PositionTable();
         mainTable = new MainTable();
-        gamePersistenceModel.registerNewMatch(mainTable ,positionTable);
+        gamePersistenceModel.registerNewMatch(mainTable ,positionTable, nickname);
     }
 
     public void loadPreviousMatch() {
+        nickname = previousMatch.getNickName();
         positionTable = previousMatch.getPositionTable();
         mainTable = previousMatch.getMainTable();
     }
@@ -58,13 +73,5 @@ public class GameModel {
 
     public void saveGame() {
         gamePersistenceModel.takeSnapshot(mainTable, positionTable);
-    }
-
-    public MainTable getMainTable() {
-        return mainTable;
-    }
-
-    public PositionTable getPositionTable() {
-        return positionTable;
     }
 }

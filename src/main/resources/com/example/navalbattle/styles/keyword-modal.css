@@ -1,0 +1,36 @@
+#keywordContainer {
+    -fx-background-color: #2f2c2c;
+}
+
+
+#keywordLabel, #keywordTextField, #confirmKeyword, #cancelKeyword {
+    -fx-font-family: "Chewy";
+}
+
+#cancelKeyword, #confirmKeyword, #keywordLabel {
+    -fx-font-size: 1.2em;
+}
+
+#cancelKeyword, #confirmKeyword, #keywordLabel {
+    -fx-text-fill: white;
+}
+
+#confirmKeyword {
+    -fx-background-radius: 5px;
+    -fx-background-color: #1c4431;
+}
+
+#cancelKeyword {
+    -fx-background-radius: 5px;
+    -fx-background-color: #5d1b1b;
+}
+
+#confirmKeyword:hover {
+    -fx-background-color: #1b8a1c;
+    -fx-cursor: hand;
+}
+
+#cancelKeyword:hover {
+    -fx-background-color: #c70c0c;
+    -fx-cursor: hand;
+}
