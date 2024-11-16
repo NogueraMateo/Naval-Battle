@@ -95,6 +95,7 @@ public class GameController {
     private boolean gameOver;
     private boolean playerTurn = false;
     private String username;
+    private boolean successfulShot = false;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -403,8 +404,12 @@ public class GameController {
             removeScopePointer();
             fireButton.setDisable(false);
             machinesFleet.setDisable(true);
-
-            int[] machineRandCoordinates = gameModel.getMainTable().shot();
+            int[] machineRandCoordinates = new int[0];
+            if (successfulShot){
+                machineRandCoordinates = gameModel.getMainTable().smartShot();
+            } else {
+                machineRandCoordinates = gameModel.getMainTable().shot();
+            }
             int machineRandX = machineRandCoordinates[0];
             int machineRandY = machineRandCoordinates[1];
             machineShoot(gameModel.getPositionTable().getBoard(), machineRandX, machineRandY);
@@ -418,6 +423,7 @@ public class GameController {
         gameModel.getPositionTable().printBoard();
 
         if (playerTable[machineShootX][machineShootY] == 0){
+            successfulShot = false;
             gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 5;
             System.out.println("++++++MACHINE SHOOT TABLE+++++");
             gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
@@ -426,6 +432,7 @@ public class GameController {
             userFleet.add(missedShot, machineShootY, machineShootX);
         }
         else if(playerTable[machineShootX][machineShootY] == 1) {
+            successfulShot = false;
             gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 6;
             System.out.println("++++++MACHINE SHOOT TABLE+++++");
             gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
@@ -434,6 +441,7 @@ public class GameController {
             userFleet.add(fire, machineShootY, machineShootX);
         }
         else if (playerTable[machineShootX][machineShootY] != 0 && playerTable[machineShootX][machineShootY] != 5){
+            successfulShot = true;
             gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 6;
             System.out.println("++++++MACHINE SHOOT TABLE+++++");
             gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());

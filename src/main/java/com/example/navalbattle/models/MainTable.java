@@ -1,10 +1,7 @@
 package com.example.navalbattle.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * The mainTable class represents the machine's game board in a battleship game.
@@ -188,7 +185,13 @@ public class MainTable implements Serializable {
         }
 
         int[] lastShot = shots.get(shots.size() - 1);
-        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        List<int[]> directions = new ArrayList<>();
+        directions.add(new int[]{0, 1});  // Derecha
+        directions.add(new int[]{0, -1}); // Izquierda
+        directions.add(new int[]{1, 0});  // Abajo
+        directions.add(new int[]{-1, 0}); // Arriba
+
+        Collections.shuffle(directions);
 
         for (int[] direction : directions) {
             int newX = lastShot[0] + direction[0];
