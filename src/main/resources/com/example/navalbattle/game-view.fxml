@@ -191,7 +191,7 @@
             <VBox id="machineBaseHBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="575.0" prefWidth="420.0">
                <children>
                   <Label id="machinesFleet" text="Machine's fleet" />
-                  <GridPane id="machineBaseGrid" fx:id="machinesFleet" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="330.0">
+                  <GridPane id="machineBaseGrid" fx:id="machinesFleet" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="330.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -332,10 +332,14 @@
                   </HBox>
                </children>
             </VBox>
-            <Button fx:id="fireButton" mnemonicParsing="false" text="Fire" visible="false" />
+            <Button id="startGame" fx:id="fireButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#playerShootTurn" prefHeight="43.0" prefWidth="90.0" text="¡Shoot!" visible="false" />
          </children>
       </HBox>
       <Label id="messageLabel" fx:id="messageLabel" visible="false" />
-      <Button id="startGame" fx:id="startGame" alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startPlayerTurn" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button id="startGame" fx:id="startGame" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startButton" prefHeight="43.0" prefWidth="142.0" text="Start Game" />
+         </children>
+      </HBox>
    </children>
 </VBox>

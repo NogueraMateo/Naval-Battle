@@ -3,6 +3,7 @@ package com.example.navalbattle.models;
 import javafx.scene.Group;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The PositionTable class represents the player's table there could be placed all the player's ships
@@ -18,6 +19,7 @@ public class PositionTable {
      * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
      */
     ArrayList<Ship> ships = new ArrayList<Ship>();
+    private final List<int[]> shipCoordinatesList = new ArrayList<>();
 
     /**
      * The constructor method of the positionTable class, it sets the ships inside the ArrayList on
@@ -67,12 +69,14 @@ public class PositionTable {
             for (int i = row; i < shipSize + row; i++){
                 positionTable[i][col] = shipType;
             }
+            shipCoordinatesList.add(new int[]{row, col, row + shipSize, col, orientation, shipType });
         }
         //HORIZONTAL ORIENTATION
         else if (orientation == 0){
             for (int j = col; j < shipSize + col; j++){
                 positionTable[row][j] = shipType;
             }
+            shipCoordinatesList.add(new int[]{row, col, row, col + shipSize, orientation, shipType });
         }
         ship.setShipAmount(ship.getShipAmount() - 1);
     }
@@ -140,5 +144,9 @@ public class PositionTable {
             }
         }
         return true;
+    }
+
+    public List<int[]> getShipCoordinatesList() {
+        return shipCoordinatesList;
     }
 }
