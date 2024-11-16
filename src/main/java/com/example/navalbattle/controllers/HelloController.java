@@ -30,7 +30,6 @@ public class HelloController {
             Node source = (Node) event.getSource();
             Stage actualStage = (Stage) source.getScene().getWindow();
             actualStage.close();
-
             GameView.getInstance();
         }
     }
