@@ -31,7 +31,10 @@ public class HelloController {
             Stage actualStage = (Stage) source.getScene().getWindow();
             actualStage.close();
 
-            GameView.getInstance();
+            GameView gameView = GameView.getInstance();
+            gameView.show();
+            GameController gameController = gameView.getGameController();
+            gameController.initialize(inputUsername.getText());
         }
     }
 

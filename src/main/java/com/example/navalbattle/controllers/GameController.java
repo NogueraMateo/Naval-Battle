@@ -94,6 +94,7 @@ public class GameController {
 
     private boolean gameOver;
     private boolean playerTurn = false;
+    private String username;
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -110,7 +111,8 @@ public class GameController {
     }
 
     @FXML
-    private void initialize() {
+    public void initialize(String username) {
+        this.username = username;
         if (gameModel.existsPreviousMatch()) {
             handlePreviousMatch();
         } else {
