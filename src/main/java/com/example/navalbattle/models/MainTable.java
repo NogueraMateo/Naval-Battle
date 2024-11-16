@@ -99,7 +99,7 @@ public class MainTable {
                         int endY = horizontal ? column + size - 1 : column;
                         int orientation = horizontal ? 1 : 0;
 
-                        shipCoordinatesList.add(new int[]{row, column, endX, endY, orientation, aux});
+                        shipCoordinatesList.add(new int[]{row, column, endX, endY, orientation, aux, 0});
 
                         placed = true;
                     }
@@ -241,5 +241,16 @@ public class MainTable {
         return shipCoordinatesList;
     }
 
+    public ArrayList<Ship> getShips() {
+        return ships;
+    }
 
+    public void printMainBoard(int[][] board) {
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                System.out.print(board[row][col] + " ");
+            }
+            System.out.println();
+        }
+    }
 }

@@ -305,4 +305,30 @@ public class ShipDrawer implements ShipDrawerInterface{
         line.setStroke(Color.web(color));
         return line;
     }
+
+    public Group drawFire() {
+        Path fireStar = new Path();
+        fireStar.getElements().addAll(
+                new MoveTo(10, 6),
+                new LineTo(7, 3),
+                new LineTo(10, 3),
+                new LineTo(13, -2),
+                new LineTo(16, 3),
+                new LineTo(19, 3),
+                new LineTo(16, 6),
+                new LineTo(19, 11),
+                new LineTo(13, 6),
+                new LineTo(7, 11),
+                new LineTo(10, 6)
+        );
+        fireStar.setStroke(Color.web("#e16717"));
+        fireStar.setFill(Color.web("#ff0000"));
+
+        Circle baseCircle = new Circle(SHIP_HEIGHT / 2);
+        baseCircle.setFill(Color.web("#ff0000"));
+        baseCircle.setStroke(Color.web("#ff0000"));
+        baseCircle.setStrokeWidth(1);
+        baseCircle.setTranslateY(10);
+        return new Group(baseCircle, fireStar);
+    }
 }
