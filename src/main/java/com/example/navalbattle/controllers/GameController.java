@@ -5,6 +5,7 @@ import com.example.navalbattle.models.GameModel;
 import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.models.Ship;
+import com.example.navalbattle.views.GameView;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
@@ -23,6 +24,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -92,7 +94,6 @@ public class GameController {
     private EventHandler<MouseEvent> mouseExitedHandler;
     private EventHandler<MouseEvent> mouseMovedHandler;
 
-    private boolean gameOver;
     private boolean playerTurn = false;
     private String username;
     private boolean successfulShot = false;
@@ -131,6 +132,8 @@ public class GameController {
     private void startButton(ActionEvent event) {
         startGame.setDisable(true);
         fireButton.setVisible(true);
+        userFleet.setDisable(true);
+        gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getBoard());
     }
 
     private void handlePreviousMatch() {
@@ -205,6 +208,7 @@ public class GameController {
                     playerShoot(gameModel.getMainTable().getBoard(), node);
                     node.setDisable(true);
                     turnManagement();
+                    setWinner();
                 }
             });
         }
@@ -393,6 +397,40 @@ public class GameController {
         machinesFleet.addEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
     }
 
+    private void setWinner(){
+        int[][] playerShotTable = gameModel.getMainTable().getShotGrid();
+        int[][] machineShotTable = gameModel.getPositionTable().getShotGrid();
+        int machineShotCounter = 0;
+        int playerShotCounter = 0;
+
+        for (int i = 0; i < 10; i++){
+            for (int j = 0; j < 10; j++){
+                if (playerShotTable[i][j] == 6) machineShotCounter++;
+                if (machineShotTable[i][j] == 6) playerShotCounter++;
+            }
+        }
+
+        if (playerShotCounter == 20 || machineShotCounter == 20){
+            userFleet.setDisable(true);
+            machinesFleet.setDisable(true);
+            fireButton.setDisable(true);
+        }
+
+        if (playerShotCounter == 20){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("The Player Won!");
+            alert.showAndWait();
+        }
+        else if (machineShotCounter == 20){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("The Machine Won!");
+            alert.showAndWait();
+        }
+    }
 
     private void turnManagement(){
         if (playerTurn) {
@@ -609,7 +647,6 @@ public class GameController {
             startGame.setDisable(false);
         }
     }
-
 
     private void changeOrientation() {
         if (shipOrientation == 1){
