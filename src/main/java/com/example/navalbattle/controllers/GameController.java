@@ -337,7 +337,7 @@ public class GameController {
 
         if (counterType4 == 4){
             for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m < shipCoordinates.get(i)[3]; m++) {
+                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
                     Group fire = drawer.drawFire();
                     userFleet.add(fire, m, n);
                 }
@@ -347,7 +347,7 @@ public class GameController {
 
         if (counterType3 == 3){
             for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m < shipCoordinates.get(i)[3]; m++) {
+                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
                     Group fire = drawer.drawFire();
                     userFleet.add(fire, m, n);
                 }
@@ -356,7 +356,7 @@ public class GameController {
         }
         if (counterType2 == 2){
             for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m < shipCoordinates.get(i)[3]; m++) {
+                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
                     Group fire = drawer.drawFire();
                     userFleet.add(fire, m, n);
                 }

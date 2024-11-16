@@ -69,14 +69,14 @@ public class PositionTable {
             for (int i = row; i < shipSize + row; i++){
                 positionTable[i][col] = shipType;
             }
-            shipCoordinatesList.add(new int[]{row, col, row + shipSize, col, orientation, shipType });
+            shipCoordinatesList.add(new int[]{row, col, row + shipSize - 1, col, orientation, shipType });
         }
         //HORIZONTAL ORIENTATION
         else if (orientation == 0){
             for (int j = col; j < shipSize + col; j++){
                 positionTable[row][j] = shipType;
             }
-            shipCoordinatesList.add(new int[]{row, col, row, col + shipSize, orientation, shipType });
+            shipCoordinatesList.add(new int[]{row, col, row, col + shipSize - 1, orientation, shipType });
         }
         ship.setShipAmount(ship.getShipAmount() - 1);
     }
