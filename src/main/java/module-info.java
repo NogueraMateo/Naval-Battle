@@ -3,6 +3,7 @@ module com.example.navalbattle {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
+    requires jdk.compiler;
 
 
     opens com.example.navalbattle to javafx.fxml;

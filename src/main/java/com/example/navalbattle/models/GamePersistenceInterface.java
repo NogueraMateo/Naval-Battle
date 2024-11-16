@@ -18,7 +18,7 @@ public interface GamePersistenceInterface {
      * @param mainTable      the initial game board for the machine
      * @param positionTable  the initial game board for the player
      */
-    void registerNewMatch(int[][] mainTable, int[][] positionTable);
+    void registerNewMatch(MainTable mainTable, PositionTable positionTable);
 
 
     /**
@@ -51,5 +51,5 @@ public interface GamePersistenceInterface {
      * @param mainTable      the updated game board for the machine
      * @param positionTable  the updated game board for the player
      */
-    void takeSnapshot(int[][] mainTable, int[][] positionTable);
+    void takeSnapshot(MainTable mainTable, PositionTable positionTable);
 }

@@ -13,7 +13,7 @@ public class GameModel {
     private PositionTable positionTable;
     private MainTable mainTable;
     private GamePersistenceModel gamePersistenceModel;
-
+    private MatchStatusSerializable previousMatch;
     /**
      * Constructs a new GameModel, initializing the position and main tables.
      * Attempts to load a previous match from storage; if none is found,
@@ -21,19 +21,27 @@ public class GameModel {
      */
     public GameModel() {
         gamePersistenceModel = new GamePersistenceModel();
+    }
 
+    public boolean existsPreviousMatch() {
         try {
-            MatchStatusSerializable previousMatch = this.previousMatch();
-            positionTable = new PositionTable(previousMatch.getPositionTable());
-            mainTable = new MainTable(previousMatch.getMainTable());
-
+            previousMatch = this.previousMatch();
         } catch (ClassNotFoundException | IOException e) {
-            positionTable = new PositionTable();
-            mainTable = new MainTable();
-            gamePersistenceModel.registerNewMatch(
-                    mainTable.getBoard() ,positionTable.getPositionTable()
-            );
+            newMatch();
+            return false;
         }
+        return true;
+    }
+
+    public void newMatch() {
+        positionTable = new PositionTable();
+        mainTable = new MainTable();
+        gamePersistenceModel.registerNewMatch(mainTable ,positionTable);
+    }
+
+    public void loadPreviousMatch() {
+        positionTable = previousMatch.getPositionTable();
+        mainTable = previousMatch.getMainTable();
     }
 
     /**
@@ -46,5 +54,17 @@ public class GameModel {
      */
     public MatchStatusSerializable previousMatch() throws ClassNotFoundException, IOException {
         return gamePersistenceModel.deserialize();
+    }
+
+    public void saveGame() {
+        gamePersistenceModel.takeSnapshot(mainTable, positionTable);
+    }
+
+    public MainTable getMainTable() {
+        return mainTable;
+    }
+
+    public PositionTable getPositionTable() {
+        return positionTable;
     }
 }

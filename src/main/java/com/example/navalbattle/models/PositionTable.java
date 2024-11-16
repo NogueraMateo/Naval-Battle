@@ -2,6 +2,7 @@ package com.example.navalbattle.models;
 
 import javafx.scene.Group;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,12 @@ import java.util.List;
  * it has 10x10 grid with the information of the player's ships of varying size in the ships arraylist
  */
 
-public class PositionTable {
+public class PositionTable implements Serializable {
     /**
      * It's the 10x10 matrix that represents the player's table where the ships are going to be placed
      */
     private int[][] positionTable = new int[10][10];
+    private int[][] shotGrid = new int[10][10];
     /**
      * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
      */
@@ -33,22 +35,16 @@ public class PositionTable {
         ships.add(new Ship(4,4, 1));
     }
 
-    public PositionTable(int[][] positionTable) {
-        ships.add(null);
-        ships.add(new Ship(1,1, 0));
-        ships.add(new Ship(2,2, 0));
-        ships.add(new Ship(3,3, 0));
-        ships.add(new Ship(4,4, 0));
-
-
-
-        this.positionTable = positionTable;
-        System.out.println("Previous position table loaded");
-        this.printBoard();
+    public int[][] getBoard() {
+        return positionTable;
     }
 
-    public int[][] getPositionTable() {
-        return positionTable;
+    public int[][] getShotGrid() {
+        return shotGrid;
+    }
+
+    public ArrayList<Ship> getShips() {
+        return ships;
     }
 
     /**
@@ -65,14 +61,14 @@ public class PositionTable {
         int shipType = ship.getShipType();
 
         //VERTICAL ORIENTATION
-        if (orientation == 1){
+        if (orientation == 0){
             for (int i = row; i < shipSize + row; i++){
                 positionTable[i][col] = shipType;
             }
             shipCoordinatesList.add(new int[]{row, col, row + shipSize - 1, col, orientation, shipType });
         }
         //HORIZONTAL ORIENTATION
-        else if (orientation == 0){
+        else if (orientation == 1){
             for (int j = col; j < shipSize + col; j++){
                 positionTable[row][j] = shipType;
             }
@@ -95,14 +91,14 @@ public class PositionTable {
         int checkCounter = 0;
 
         //VERTICAL ORIENTATION
-        if (orientation == 1){
+        if (orientation == 0){
             for (int i = row; i < shipSize + row; i++){
                 if (positionTable[i][col] == 0)
                     checkCounter++;
             }
         }
         //HORIZONTAL ORIENTATION
-        else if (orientation == 0){
+        else if (orientation == 1){
             for (int j = col; j < shipSize + col; j++){
                 if (positionTable[row][j] == 0)
                     checkCounter++;
