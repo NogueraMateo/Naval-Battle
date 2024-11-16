@@ -18,6 +18,8 @@ public class MainTable implements Serializable {
      * Each cell can be either 0 (water) or 1 (occupied by a ship).
      */
     private int[][] board = new int[10][10];
+    private int[][] shotGrid = new int[10][10];
+
 
     /**
      * A list that stores the coordinates and related data for each ship.
@@ -67,6 +69,10 @@ public class MainTable implements Serializable {
             Arrays.fill(nums, 0);
         }
         setShips();
+    }
+
+    public int[][] getShotGrid() {
+        return shotGrid;
     }
 
     /**

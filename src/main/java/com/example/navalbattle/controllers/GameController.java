@@ -4,6 +4,7 @@ package com.example.navalbattle.controllers;
 import com.example.navalbattle.models.GameModel;
 import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.models.PositionTable;
+import com.example.navalbattle.models.Ship;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
@@ -24,6 +25,8 @@ import javafx.scene.layout.*;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,8 +71,6 @@ public class GameController {
     private Button startGame;
 
     private final ShipDrawer drawer;
-    private MainTable mainTable = new MainTable();
-    private PositionTable positionTable = new PositionTable();
     private final GameModel gameModel;
 
     private Integer gridPaneRow;
@@ -93,8 +94,6 @@ public class GameController {
 
     private boolean gameOver;
     private boolean playerTurn = false;
-    private int[][] playerShootGrid = new int[10][10];
-    private int[][] machineShootGrid = new int[10][10];
 
     /**
      * Constructs a new GameController and initializes a ShipDrawer
@@ -103,7 +102,6 @@ public class GameController {
     public GameController() {
         gameModel = new GameModel();
         drawer = new ShipDrawer();
-        mainTable = new MainTable();
 
         crosshairImg = new Image(getClass().getResourceAsStream("/com/example/navalbattle/images/Scope.png"));
         crosshairView = new ImageView(crosshairImg);
@@ -114,37 +112,12 @@ public class GameController {
     @FXML
     private void initialize() {
         if (gameModel.existsPreviousMatch()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Previous Game in Progress");
-            alert.setHeaderText(null);
-            alert.setContentText("You have a previous game in progress. Do you want to load it?");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                gameModel.loadPreviousMatch();
-                setFleet(true);
-                setFleet(false);
-
-                if (!gameModel.getPositionTable().isBoardFull()) {
-                    setCellsEvents();
-                    setUpShipEvents();
-                    setGhostShips();
-                }
-            } else {
-                gameModel.newMatch();
-                setCellsEvents();
-                setUpShipEvents();
-                setGhostShips();
-            }
-
+            handlePreviousMatch();
         } else {
-            gameModel.newMatch();
-            setCellsEvents();
-            setUpShipEvents();
-            setGhostShips();
+            initializeNewMatch();
         }
-
     }
+
     @FXML
     private void playerShootTurn(ActionEvent event) {
         playerTurn = true;
@@ -155,6 +128,62 @@ public class GameController {
     private void startButton(ActionEvent event) {
         startGame.setDisable(true);
         fireButton.setVisible(true);
+    }
+
+    private void handlePreviousMatch() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Previous Game in Progress");
+        alert.setHeaderText(null);
+        alert.setContentText("You have a previous game in progress. Do you want to load it?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            loadPreviousMatch();
+        } else {
+            initializeNewMatch();
+        }
+    }
+
+    private void loadPreviousMatch() {
+        gameModel.loadPreviousMatch();
+        setFleet(false);
+        updateLabels();
+        setCellsEvents();
+        setUpShipEvents();
+        setGhostShips();
+        setBombs();
+        createShotHandlers();
+
+        if (gameModel.getPositionTable().isBoardFull()) {
+            startGame.setDisable(true);
+            fireButton.setVisible(true);
+        }
+    }
+
+    private void initializeNewMatch() {
+        gameModel.newMatch();
+        setCellsEvents();
+        setUpShipEvents();
+        setGhostShips();
+        createShotHandlers();
+    }
+
+    // --------------------------------- METHODS FOR SETTING THE GAME ENVIRONMENT ----------------------------
+
+    public void updateLabels() {
+        ArrayList<Ship> ships = gameModel.getPositionTable().getShips();
+        for (Ship ship : ships) {
+            if (ship == null) continue;
+            if (ship.getShipType() == 1) {
+                frigateCounter.setText("x" + ship.getShipAmount());
+            } else if (ship.getShipType() == 2) {
+                destroyerCounter.setText("x" + ship.getShipAmount());
+            } else if (ship.getShipType() == 3) {
+                submarineCounter.setText("x" + ship.getShipAmount());
+            } else if (ship.getShipType() == 4) {
+                aircraftCounter.setText("x" + ship.getShipAmount());
+            }
+        }
     }
 
     private void setCellsEvents() {
@@ -170,96 +199,50 @@ public class GameController {
         for (Node node : machinesFleet.getChildren()){
             node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    playerShoot(mainTable.getBoard(), node);
+                    playerShoot(gameModel.getMainTable().getBoard(), node);
+                    node.setDisable(true);
                     turnManagement();
-                } else if (event.getButton() == MouseButton.SECONDARY) {
-                    changeOrientation();
                 }
             });
         }
     }
 
-    private void turnManagement(){
-        if (playerTurn) {
-            fireButton.setDisable(true);
-            machinesFleet.setDisable(false);
+    private void setBombs() {
+        int[][] machineShotGrid = gameModel.getMainTable().getShotGrid();
+        int[][] positionShotGrid = gameModel.getPositionTable().getShotGrid();
+
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 10; col++) {
+                if (positionShotGrid[row][col] == 5) {
+                    Group missedShot = drawer.drawMissedShot();
+                    machinesFleet.add(missedShot, col, row);
+                } else if (positionShotGrid[row][col] == 6) {
+
+                    if (gameModel.getMainTable().getBoard()[row][col] == 1) {
+                        Group fire = drawer.drawFire();
+                        machinesFleet.add(fire, col, row);
+                    } else {
+                        Group bomb = drawer.drawBomb();
+                        machinesFleet.add(bomb, col, row);
+                    }
+                }
+
+                if (machineShotGrid[row][col] == 5) {
+                    Group missedShot = drawer.drawMissedShot();
+                    userFleet.add(missedShot, col, row);
+                } else if (machineShotGrid[row][col] == 6) {
+                    if (gameModel.getPositionTable().getBoard()[row][col] == 1) {
+                        Group fire = drawer.drawFire();
+                        userFleet.add(fire, col, row);
+                    } else {
+                        Group bomb = drawer.drawBomb();
+                        userFleet.add(bomb, col, row);
+                    }
+                }
+            }
         }
-        else {
-            fireButton.setDisable(false);
-            machinesFleet.setDisable(true);
-
-            int[] machineRandCoordinates = mainTable.shot();
-            int machineRandX = machineRandCoordinates[0];
-            int machineRandY = machineRandCoordinates[1];
-            machineShoot(positionTable.getPositionTable(), machineRandX, machineRandY);
-
-        }
-    }
-
-    private void machineShoot(int[][] playerTable, int machineShootX, int machineShootY){
-        int[][] shootGrid = machineShootGrid;
-
-        System.out.println("Machine Shot to: (" + machineShootX + ", " + machineShootY + ").");
-        System.out.println("++++++PLAYER TABLE++++++");
-        positionTable.printBoard();
-
-        if (playerTable[machineShootX][machineShootY] == 0){
-            shootGrid[machineShootX][machineShootY] = 5;
-            System.out.println("++++++MACHINE SHOOT TABLE+++++");
-            mainTable.printMainBoard(shootGrid);
-
-            Group missedShot = drawer.drawMissedShot();
-            userFleet.add(missedShot, machineShootY, machineShootX);
-        }
-        else if(playerTable[machineShootX][machineShootY] == 1) {
-            shootGrid[machineShootX][machineShootY] = 6;
-            System.out.println("++++++MACHINE SHOOT TABLE+++++");
-            mainTable.printMainBoard(shootGrid);
-
-            Group fire = drawer.drawFire();
-            userFleet.add(fire, machineShootY, machineShootX);
-        }
-        else if (playerTable[machineShootX][machineShootY] != 0 && playerTable[machineShootX][machineShootY] != 5){
-            shootGrid[machineShootX][machineShootY] = 6;
-            System.out.println("++++++MACHINE SHOOT TABLE+++++");
-            mainTable.printMainBoard(shootGrid);
-
-            Group bomb = drawer.drawBomb();
-            userFleet.add(bomb, machineShootY, machineShootX);
-        }
+        checkSameMachineShip();
         checkSamePlayerShip();
-    }
-
-    private void playerShoot(int[][] machineTable, Node clickedNode){
-        if (playerTurn){
-            Integer machinePaneRow = GridPane.getRowIndex(clickedNode);
-            Integer machinePaneCol = GridPane.getColumnIndex(clickedNode);
-
-            if (machinePaneRow == null) machinePaneRow = 0;
-            if (machinePaneCol == null) machinePaneCol = 0;
-
-            int[][] shootGrid = playerShootGrid;
-            System.out.println("+++++++++++++++++++++++");
-            mainTable.printMainBoard(machineTable);
-
-            if (machineTable[machinePaneRow][machinePaneCol] == 0){
-                shootGrid[machinePaneRow][machinePaneCol] = 5;
-                Group missedShot = drawer.drawMissedShot();
-                machinesFleet.add(missedShot, machinePaneCol, machinePaneRow);
-            }
-            else if(machineTable[machinePaneRow][machinePaneCol] == 1) {
-                shootGrid[machinePaneRow][machinePaneCol] = 6;
-                Group fire = drawer.drawFire();
-                machinesFleet.add(fire, machinePaneCol, machinePaneRow);
-            }
-            else if (machineTable[machinePaneRow][machinePaneCol] != 0 && machineTable[machinePaneRow][machinePaneCol] != 5){
-                shootGrid[machinePaneRow][machinePaneCol] = 6;
-                Group bomb = drawer.drawBomb();
-                machinesFleet.add(bomb, machinePaneCol, machinePaneRow);
-            }
-            checkSameMachineShip();
-            playerTurn = false;
-        }
     }
 
     private void setGhostShips() {
@@ -327,8 +310,8 @@ public class GameController {
         for (int[] coordinates : shipCoordinates) {
             int row = coordinates[0];
             int column = coordinates[1];
-            boolean vertical = (coordinates[2] == 0);
-            int type = coordinates[3];
+            boolean vertical = (coordinates[4] == 0);
+            int type = coordinates[5];
             Group ship = drawShip(type, vertical);
             if (machine) {
                 machinesFleet.add(ship, column, row);
@@ -336,6 +319,161 @@ public class GameController {
                 userFleet.add(ship, column, row);
             }
         }
+    }
+
+    /**
+     * Decreases the ship amount by one on the interface
+     * @param shipType
+     */
+    private void updateCounter(int shipType) {
+        int currentAmount = 0;
+        switch (shipType) {
+            case 1:
+                currentAmount = Character.getNumericValue(frigateCounter.getText().charAt(1));
+                currentAmount--;
+                frigateCounter.setText("x" + currentAmount);
+                break;
+            case 2:
+                currentAmount = Character.getNumericValue(destroyerCounter.getText().charAt(1));
+                currentAmount--;
+                destroyerCounter.setText("x" + currentAmount);
+                break;
+            case 3:
+                currentAmount = Character.getNumericValue(submarineCounter.getText().charAt(1));
+                currentAmount--;
+                submarineCounter.setText("x" + currentAmount);
+                break;
+            case 4:
+                currentAmount = Character.getNumericValue(aircraftCounter.getText().charAt(1));
+                currentAmount--;
+                aircraftCounter.setText("x" + currentAmount);
+                break;
+        }
+
+        // If there are no ships left then no ghost is shown
+        if (currentAmount == 0) {
+            userFleet.getChildren().remove(currentGhost);
+        }
+    }
+
+    private void createShotHandlers() {
+        mouseEnteredHandler = mouseEvent -> {
+            machinesFleet.setCursor(Cursor.DISAPPEAR);
+            crosshairView.setVisible(true);
+        };
+
+        mouseExitedHandler = mouseEvent-> {
+            machinesFleet.setCursor(Cursor.DEFAULT);
+            crosshairView.setVisible(false);
+        };
+
+        mouseMovedHandler = mouseEvent -> {
+            double mouseX = mouseEvent.getX();
+            double mouseY = mouseEvent.getY();
+            crosshairView.setTranslateX(mouseX - 20);
+            crosshairView.setTranslateY(mouseY);};
+    }
+
+    /**
+     * This method sets some event filters to the Machine's Fleet so
+     * a cross-hair is shown on the Machine's Fleet when the user
+     * has to shoot.
+     */
+    private void setScopePointer() {
+        if (!machinesFleet.getChildren().contains(crosshairView)) {
+            machinesFleet.add(crosshairView, 0, 0);
+        }
+        crosshairView.setVisible(false);
+
+        machinesFleet.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEnteredHandler);
+        machinesFleet.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseExitedHandler);
+        machinesFleet.addEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
+    }
+
+
+    private void turnManagement(){
+        if (playerTurn) {
+            fireButton.setDisable(true);
+            machinesFleet.setDisable(false);
+            setScopePointer();
+        }
+        else {
+            removeScopePointer();
+            fireButton.setDisable(false);
+            machinesFleet.setDisable(true);
+
+            int[] machineRandCoordinates = gameModel.getMainTable().shot();
+            int machineRandX = machineRandCoordinates[0];
+            int machineRandY = machineRandCoordinates[1];
+            machineShoot(gameModel.getPositionTable().getBoard(), machineRandX, machineRandY);
+
+        }
+    }
+
+    private void machineShoot(int[][] playerTable, int machineShootX, int machineShootY){
+        System.out.println("Machine Shot to: (" + machineShootX + ", " + machineShootY + ").");
+        System.out.println("++++++PLAYER TABLE++++++");
+        gameModel.getPositionTable().printBoard();
+
+        if (playerTable[machineShootX][machineShootY] == 0){
+            gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 5;
+            System.out.println("++++++MACHINE SHOOT TABLE+++++");
+            gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
+
+            Group missedShot = drawer.drawMissedShot();
+            userFleet.add(missedShot, machineShootY, machineShootX);
+        }
+        else if(playerTable[machineShootX][machineShootY] == 1) {
+            gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 6;
+            System.out.println("++++++MACHINE SHOOT TABLE+++++");
+            gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
+
+            Group fire = drawer.drawFire();
+            userFleet.add(fire, machineShootY, machineShootX);
+        }
+        else if (playerTable[machineShootX][machineShootY] != 0 && playerTable[machineShootX][machineShootY] != 5){
+            gameModel.getMainTable().getShotGrid()[machineShootX][machineShootY] = 6;
+            System.out.println("++++++MACHINE SHOOT TABLE+++++");
+            gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getShotGrid());
+
+            Group bomb = drawer.drawBomb();
+            userFleet.add(bomb, machineShootY, machineShootX);
+        }
+        checkSamePlayerShip();
+        gameModel.saveGame();
+    }
+
+    private void playerShoot(int[][] machineTable, Node clickedNode){
+        if (playerTurn){
+            Integer machinePaneRow = GridPane.getRowIndex(clickedNode);
+            Integer machinePaneCol = GridPane.getColumnIndex(clickedNode);
+
+            if (machinePaneRow == null) machinePaneRow = 0;
+            if (machinePaneCol == null) machinePaneCol = 0;
+
+            System.out.println("+++++++++++++++++++++++");
+            gameModel.getMainTable().printMainBoard(machineTable);
+
+            if (machineTable[machinePaneRow][machinePaneCol] == 0){
+                gameModel.getPositionTable().getShotGrid()[machinePaneRow][machinePaneCol] = 5;
+                Group missedShot = drawer.drawMissedShot();
+                machinesFleet.add(missedShot, machinePaneCol, machinePaneRow);
+            }
+            else if(machineTable[machinePaneRow][machinePaneCol] == 1) {
+                gameModel.getPositionTable().getShotGrid()[machinePaneRow][machinePaneCol] = 6;
+                Group fire = drawer.drawFire();
+                machinesFleet.add(fire, machinePaneCol, machinePaneRow);
+            }
+            else if (machineTable[machinePaneRow][machinePaneCol] != 0 && machineTable[machinePaneRow][machinePaneCol] != 5){
+                gameModel.getPositionTable().getShotGrid()[machinePaneRow][machinePaneCol] = 6;
+                Group bomb = drawer.drawBomb();
+                machinesFleet.add(bomb, machinePaneCol, machinePaneRow);
+            }
+            checkSameMachineShip();
+            playerTurn = false;
+        }
+        gameModel.saveGame();
+
     }
 
     /**
@@ -355,123 +493,59 @@ public class GameController {
         };
     }
 
-    private void traversePlayerPositionArray(int i){
-        List<int[]> shipCoordinates = positionTable.getShipCoordinatesList();
+    private void traversePositionArray(int[] currentArray, boolean player) {
+        int[][] board;
         int counterType4 = 0;
         int counterType3 = 0;
         int counterType2 = 0;
+        if (player) {
+            board = gameModel.getPositionTable().getBoard();
+        } else {
+            board = gameModel.getMainTable().getBoard();
+        }
 
-        for (int row = shipCoordinates.get(i)[0]; row <= shipCoordinates.get(i)[2]; row++) {
-            for (int col = shipCoordinates.get(i)[1]; col <= shipCoordinates.get(i)[3]; col++) {
-                if (machineShootGrid[row][col] == 6){
-                    if (positionTable.getPositionTable()[row][col] == 4) {
+        for (int row = currentArray[0]; row <= currentArray[2]; row++) {
+            for (int col = currentArray[1]; col <= currentArray[3]; col++) {
+                if ((gameModel.getMainTable().getShotGrid()[row][col] == 6 && player)
+                        || (gameModel.getPositionTable().getShotGrid()[row][col] == 6 && !player)){
+                    if (board[row][col] == 4) {
                         counterType4++;
                     }
-                    else if (positionTable.getPositionTable()[row][col] == 3) {
+                    else if (board[row][col] == 3) {
                         counterType3++;
                     }
-                    else if (positionTable.getPositionTable()[row][col] == 2) {
+                    else if (board[row][col] == 2) {
                         counterType2++;
                     }
                 }
             }
         }
 
-        if (counterType4 == 4){
-            for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
+        if (counterType4 == 4 || counterType3 == 3 || counterType2 == 2) {
+            for (int n = currentArray[0]; n <= currentArray[2]; n++) {
+                for (int m = currentArray[1]; m <= currentArray[3]; m++) {
                     Group fire = drawer.drawFire();
-                    userFleet.add(fire, m, n);
+                    if (player) userFleet.add(fire, m, n);
+                    else machinesFleet.add(fire, m, n);
                 }
             }
-            counterType4 = 0;
-        }
-
-        if (counterType3 == 3){
-            for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
-                    Group fire = drawer.drawFire();
-                    userFleet.add(fire, m, n);
-                }
-            }
-            counterType3 = 0;
-        }
-        if (counterType2 == 2){
-            for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
-                    Group fire = drawer.drawFire();
-                    userFleet.add(fire, m, n);
-                }
-            }
-            counterType2 = 0;
-        }
-    }
-
-    private void traverseMachinePositionArray(int i){
-        List<int[]> shipCoordinates = mainTable.getShipCoordinatesList();
-        int counterType4 = 0;
-        int counterType3 = 0;
-        int counterType2 = 0;
-
-        for (int row = shipCoordinates.get(i)[0]; row <= shipCoordinates.get(i)[2]; row++) {
-            for (int col = shipCoordinates.get(i)[1]; col <= shipCoordinates.get(i)[3]; col++) {
-                if (playerShootGrid[row][col] == 6){
-                    if (mainTable.getBoard()[row][col] == 4) {
-                        counterType4++;
-                    }
-                    else if (mainTable.getBoard()[row][col] == 3) {
-                        counterType3++;
-                    }
-                    else if (mainTable.getBoard()[row][col] == 2) {
-                        counterType2++;
-                    }
-                }
-            }
-        }
-
-        if (counterType4 == 4){
-            for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
-                    Group fire = drawer.drawFire();
-                    machinesFleet.add(fire, m, n);
-                }
-            }
-            counterType4 = 0;
-        }
-
-        if (counterType3 == 3){
-            for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
-                    Group fire = drawer.drawFire();
-                    machinesFleet.add(fire, m, n);
-                }
-            }
-            counterType3 = 0;
-        }
-        if (counterType2 == 2){
-            for (int n = shipCoordinates.get(i)[0]; n <= shipCoordinates.get(i)[2]; n++) {
-                for (int m = shipCoordinates.get(i)[1]; m <= shipCoordinates.get(i)[3]; m++) {
-                    Group fire = drawer.drawFire();
-                    machinesFleet.add(fire, m, n);
-                }
-            }
-            counterType2 = 0;
         }
     }
 
     private void checkSamePlayerShip() {
-        List<int[]> shipCoordinates = positionTable.getShipCoordinatesList();
+        List<int[]> shipCoordinates = gameModel.getPositionTable().getShipCoordinatesList();
 
-        for (int i = 0; i < shipCoordinates.size(); i++) {
-            traversePlayerPositionArray(i);
+        for (int[] coordinates : shipCoordinates) {
+            traversePositionArray(coordinates, true);
         }
     }
 
     private void checkSameMachineShip() {
-        List<int[]> shipCoordinates = mainTable.getShipCoordinatesList();
+        List<int[]> shipCoordinates = gameModel.getMainTable().getShipCoordinatesList();
 
-        for (int i = 0; i < shipCoordinates.size(); i++) {
-                traverseMachinePositionArray(i);
+        for (int[] coordinates: shipCoordinates) {
+            System.out.println(Arrays.toString(coordinates));
+            traversePositionArray(coordinates, false);
         }
     }
 
@@ -526,40 +600,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Decreases the ship amount by one on the interface
-     * @param shipType
-     */
-    private void updateCounter(int shipType) {
-        int currentAmount = 0;
-        switch (shipType) {
-            case 1:
-                currentAmount = Character.getNumericValue(frigateCounter.getText().charAt(1));
-                currentAmount--;
-                frigateCounter.setText("x" + currentAmount);
-                break;
-            case 2:
-                currentAmount = Character.getNumericValue(destroyerCounter.getText().charAt(1));
-                currentAmount--;
-                destroyerCounter.setText("x" + currentAmount);
-                break;
-            case 3:
-                currentAmount = Character.getNumericValue(submarineCounter.getText().charAt(1));
-                currentAmount--;
-                submarineCounter.setText("x" + currentAmount);
-                break;
-            case 4:
-                currentAmount = Character.getNumericValue(aircraftCounter.getText().charAt(1));
-                currentAmount--;
-                aircraftCounter.setText("x" + currentAmount);
-                break;
-        }
-
-        // If there are no ships left then no ghost is shown
-        if (currentAmount == 0) {
-            userFleet.getChildren().remove(currentGhost);
-        }
-    }
 
     private void changeOrientation() {
         if (shipOrientation == 1){
@@ -578,6 +618,7 @@ public class GameController {
      * @param shipType
      */
     private void showGhostShip(int shipType) {
+        rotate.setAngle(0);
         shipOrientation = 1;
         // If there is a ship already selected then it removes the current ghost
         if (currentGhost != null) {
@@ -585,7 +626,7 @@ public class GameController {
         }
 
         // If there are no ships left of the ship selected no ghost is shown
-        if (!positionTable.checkAmount(shipType)) {
+        if (!gameModel.getPositionTable().checkAmount(shipType)) {
             return;
         }
 
@@ -622,36 +663,6 @@ public class GameController {
         transition.setFromValue(1);
         transition.setToValue(0);
         transition.play();
-    }
-
-    /**
-     * This method sets some event filters to the Machine's Fleet so
-     * a cross-hair is shown on the Machine's Fleet when the user
-     * has to shoot.
-     */
-    private void setScopePointer() {
-        machinesFleet.add(crosshairView, 0, 0);
-        crosshairView.setVisible(false);
-
-        mouseEnteredHandler = mouseEvent -> {
-            machinesFleet.setCursor(Cursor.DISAPPEAR);
-            crosshairView.setVisible(true);
-        };
-
-        mouseExitedHandler = mouseEvent-> {
-            machinesFleet.setCursor(Cursor.DEFAULT);
-            crosshairView.setVisible(false);
-        };
-
-        mouseMovedHandler = mouseEvent -> {
-            double mouseX = mouseEvent.getX();
-            double mouseY = mouseEvent.getY();
-            crosshairView.setTranslateX(mouseX - 20);
-            crosshairView.setTranslateY(mouseY);};
-
-        machinesFleet.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEnteredHandler);
-        machinesFleet.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseExitedHandler);
-        machinesFleet.addEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
     }
 
     /**

@@ -3,6 +3,8 @@ package com.example.navalbattle.views;
 import javafx.scene.Group;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.*;
 
 /**
@@ -321,13 +323,13 @@ public class ShipDrawer implements ShipDrawerInterface{
                 new LineTo(7, 11),
                 new LineTo(10, 6)
         );
-        fireStar.setStroke(Color.web("#e16717"));
+        fireStar.setStroke(Color.web("#ff9843"));
         fireStar.setFill(Color.web("#ff0000"));
 
         Circle baseCircle = new Circle(SHIP_HEIGHT / 2);
-        baseCircle.setFill(Color.web("#ff0000"));
-        baseCircle.setStroke(Color.web("#ff0000"));
-        baseCircle.setStrokeWidth(1);
+        baseCircle.setFill(Color.web("#f8b417"));
+        baseCircle.setStroke(Color.web("#ff9843"));
+        baseCircle.setStrokeWidth(2);
         baseCircle.setTranslateY(10);
         return new Group(baseCircle, fireStar);
     }

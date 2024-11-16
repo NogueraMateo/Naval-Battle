@@ -16,6 +16,7 @@ public class PositionTable implements Serializable {
      * It's the 10x10 matrix that represents the player's table where the ships are going to be placed
      */
     private int[][] positionTable = new int[10][10];
+    private int[][] shotGrid = new int[10][10];
     /**
      * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
      */
@@ -34,8 +35,16 @@ public class PositionTable implements Serializable {
         ships.add(new Ship(4,4, 1));
     }
 
-    public int[][] getPositionTable() {
+    public int[][] getBoard() {
         return positionTable;
+    }
+
+    public int[][] getShotGrid() {
+        return shotGrid;
+    }
+
+    public ArrayList<Ship> getShips() {
+        return ships;
     }
 
     /**
