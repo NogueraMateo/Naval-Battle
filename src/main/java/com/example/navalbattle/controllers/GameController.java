@@ -64,7 +64,7 @@ public class GameController {
     private Label messageLabel;
 
     @FXML
-    private Label descriptionLabel;
+    private Label descriptionLabel, labelPlayerName;
 
     @FXML
     private Button fireButton;
@@ -115,6 +115,7 @@ public class GameController {
     @FXML
     public void initialize(String username) {
         this.username = username;
+        labelPlayerName.setText(username + "'s Fleet");
         if (gameModel.existsPreviousMatch()) {
             handlePreviousMatch();
         } else {
