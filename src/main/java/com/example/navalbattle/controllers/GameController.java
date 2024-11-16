@@ -124,7 +124,7 @@ public class GameController {
     public void initialize(String username) {
         this.username = username;
         labelPlayerName.setText(username + "'s Fleet");
-        if (gameModel.existsPreviousMatch()) {
+        if (gameModel.existsPreviousMatch(username)) {
             handlePreviousMatch();
         } else {
             initializeNewMatch();
@@ -173,10 +173,12 @@ public class GameController {
             startGame.setDisable(true);
             fireButton.setVisible(true);
         }
+
+        labelPlayerName.setText(gameModel.getNickname() + "'s Fleet");
     }
 
     private void initializeNewMatch() {
-        gameModel.newMatch();
+        gameModel.newMatch(this.username);
         setCellsEvents();
         setUpShipEvents();
         setGhostShips();

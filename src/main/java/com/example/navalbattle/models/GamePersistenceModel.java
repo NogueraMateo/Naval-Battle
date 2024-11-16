@@ -22,8 +22,8 @@ public class GamePersistenceModel implements GamePersistenceInterface{
     }
 
     @Override
-    public void registerNewMatch(MainTable mainTable, PositionTable positionTable) {
-        currentMatchStatus = new MatchStatusSerializable(mainTable, positionTable);
+    public void registerNewMatch(MainTable mainTable, PositionTable positionTable, String nickname) {
+        currentMatchStatus = new MatchStatusSerializable(mainTable, positionTable, nickname);
         serialize(currentMatchStatus);
     }
 
@@ -31,13 +31,9 @@ public class GamePersistenceModel implements GamePersistenceInterface{
     public void serialize(MatchStatusSerializable match) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./src/main/resources/com/example/navalbattle/previousMatch/previous_match.ser"));){
             oos.writeObject(currentMatchStatus);
-            System.out.println("Current board has been saved");
         } catch (IOException e) {
             System.err.println("Error saving the current match status: " + e.getMessage());
-            e.printStackTrace();
         }
-
-        System.out.println("Current board has been saved");
     }
 
     @Override

@@ -17,6 +17,7 @@ public class MatchStatusSerializable implements Serializable {
 
     private MainTable mainTable;
     private PositionTable positionTable;
+    private String nickName;
 
     /**
      * Constructs a new MatchStatusSerializable with the given player
@@ -25,9 +26,10 @@ public class MatchStatusSerializable implements Serializable {
      * @param mainTable      the machine's game board
      * @param positionTable  the player's game board
      */
-    public MatchStatusSerializable(MainTable mainTable, PositionTable positionTable) {
+    public MatchStatusSerializable(MainTable mainTable, PositionTable positionTable, String nickName) {
         this.mainTable = mainTable;
         this.positionTable = positionTable;
+        this.nickName = nickName;
     }
 
     /**
@@ -46,6 +48,10 @@ public class MatchStatusSerializable implements Serializable {
      */
     public PositionTable getPositionTable() {
         return positionTable;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 
     /**

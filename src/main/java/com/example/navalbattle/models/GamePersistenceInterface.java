@@ -18,7 +18,7 @@ public interface GamePersistenceInterface {
      * @param mainTable      the initial game board for the machine
      * @param positionTable  the initial game board for the player
      */
-    void registerNewMatch(MainTable mainTable, PositionTable positionTable);
+    void registerNewMatch(MainTable mainTable, PositionTable positionTable, String nickname);
 
 
     /**
