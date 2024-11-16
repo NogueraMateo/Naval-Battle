@@ -1,9 +1,7 @@
 package com.example.navalbattle.models;
 
-import com.sun.tools.javac.Main;
-import javafx.geometry.Pos;
+import com.example.navalbattle.interfaces.MatchStatusSerializableInterface;
 
-import javax.swing.text.Position;
 import java.io.Serializable;
 
 /**
@@ -13,11 +11,11 @@ import java.io.Serializable;
  * and loaded, allowing the player to resume from the last saved state.
  * @author Mateo Noguera Pinto
  */
-public class MatchStatusSerializable implements Serializable {
+public class MatchStatusSerializable implements MatchStatusSerializableInterface, Serializable {
 
     private MainTable mainTable;
     private PositionTable positionTable;
-    private String nickName;
+    private final String nickName;
 
     /**
      * Constructs a new MatchStatusSerializable with the given player
@@ -37,6 +35,7 @@ public class MatchStatusSerializable implements Serializable {
      *
      * @return a 2D array representing the machine's board
      */
+    @Override
     public MainTable getMainTable() {
         return mainTable;
     }
@@ -46,10 +45,17 @@ public class MatchStatusSerializable implements Serializable {
      *
      * @return a 2D array representing the player's board
      */
+    @Override
     public PositionTable getPositionTable() {
         return positionTable;
     }
 
+    /**
+     * Returns the player's username.
+     *
+     * @return a String representing the username
+     */
+    @Override
     public String getNickName() {
         return nickName;
     }
@@ -60,6 +66,7 @@ public class MatchStatusSerializable implements Serializable {
      * @param mainTable      the machine's game board to save
      * @param positionTable  the player's game board to save
      */
+    @Override
     public void saveSnapShot(MainTable mainTable, PositionTable positionTable) {
         this.mainTable = mainTable;
         this.positionTable = positionTable;

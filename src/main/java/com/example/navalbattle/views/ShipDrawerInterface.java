@@ -68,4 +68,11 @@ public interface ShipDrawerInterface {
      * @return a Line object with the specified properties
      */
     Line drawLine(double fromX, double fromY, double toX, double toY, String color, double strokeWidth);
+
+    /**
+     * Draws a fire animation graphic.
+     *
+     * @return A JavaFX Group containing the graphical representation of fire.
+     */
+    Group drawFire();
 }

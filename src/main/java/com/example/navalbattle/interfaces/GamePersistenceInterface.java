@@ -1,4 +1,8 @@
-package com.example.navalbattle.models;
+package com.example.navalbattle.interfaces;
+
+import com.example.navalbattle.models.MainTable;
+import com.example.navalbattle.models.MatchStatusSerializable;
+import com.example.navalbattle.models.PositionTable;
 
 import java.io.IOException;
 
@@ -44,7 +48,6 @@ public interface GamePersistenceInterface {
     /**
      * Updates the current game state with the latest game boards and immediately
      * serializes it to save the progress.
-     *
      * This method should be called after every move, whether it's by the player or
      * the machine, to ensure the game state is saved continuously.
      *
@@ -52,4 +55,10 @@ public interface GamePersistenceInterface {
      * @param positionTable  the updated game board for the player
      */
     void takeSnapshot(MainTable mainTable, PositionTable positionTable);
+
+    /**
+     * Deletes the saved match status file if it exists.
+     * Outputs a message indicating whether the deletion was successful.
+     */
+    void deleteMatchStatus();
 }

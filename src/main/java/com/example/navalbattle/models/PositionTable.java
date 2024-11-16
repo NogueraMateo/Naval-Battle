@@ -1,26 +1,41 @@
 package com.example.navalbattle.models;
 
-import javafx.scene.Group;
+import com.example.navalbattle.interfaces.PositionTableInterface;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The PositionTable class represents the player's table there could be placed all the player's ships
- * it has 10x10 grid with the information of the player's ships of varying size in the ships arraylist
+ * The PositionTable class represents the player's table where all ships are placed.
+ * It includes a 10x10 grid, information about the player's ships, and their placement on the board.
+ * This class implements the {@link PositionTableInterface} interface and can be serialized.
+ *
+ * <p>The class manages the placement and checking of ships on the board, and ensures that ships
+ * are placed correctly without overlap. It also tracks the state of the board and the remaining ships
+ * to be placed.</p>
+ *
+ * @see PositionTableInterface
  */
-
-public class PositionTable implements Serializable {
+public class PositionTable implements PositionTableInterface, Serializable {
     /**
-     * It's the 10x10 matrix that represents the player's table where the ships are going to be placed
+     * The 10x10 matrix representing the player's table where ships are placed.
      */
-    private int[][] positionTable = new int[10][10];
-    private int[][] shotGrid = new int[10][10];
+    private final int[][] positionTable = new int[10][10];
+
     /**
-     * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
+     * The 10x10 grid for tracking shots fired on the board.
+     */
+    private final int[][] shotGrid = new int[10][10];
+
+    /**
+     * A list that stores information about ships, including their size, type, and remaining amount.
      */
     ArrayList<Ship> ships = new ArrayList<Ship>();
+
+    /**
+     * A list of coordinates that stores the positions of all placed ships.
+     */
     private final List<int[]> shipCoordinatesList = new ArrayList<>();
 
     /**
@@ -35,26 +50,45 @@ public class PositionTable implements Serializable {
         ships.add(new Ship(4,4, 1));
     }
 
+    /**
+     * Returns the 10x10 board representing the player's ship positions.
+     *
+     * @return the position table as a 2D array.
+     */
+    @Override
     public int[][] getBoard() {
         return positionTable;
     }
 
+    /**
+     * Returns the 10x10 shot grid to track fired shots on the board.
+     *
+     * @return the shot grid as a 2D array.
+     */
+    @Override
     public int[][] getShotGrid() {
         return shotGrid;
     }
 
+    /**
+     * Returns the list of ships in the player's fleet.
+     *
+     * @return the list of ships.
+     */
+    @Override
     public ArrayList<Ship> getShips() {
         return ships;
     }
 
     /**
-     * Allows the player to place the ship in the matrix if there's enough ships to be placed and
-     * if the ship is not overlapping.
-     * @param shipIndex is the ship that's going to be placed
-     * @param row is the row where the ship is going to be placed
-     * @param col is the column where the ship is going to be placed
-     * @param orientation is the orientation of the ship, 0 if is horizontal or 1 if is vertical.
+     * Sets the position of a ship on the board based on the given index, row, column, and orientation.
+     *
+     * @param shipIndex the index of the ship to be placed.
+     * @param row the starting row where the ship should be placed.
+     * @param col the starting column where the ship should be placed.
+     * @param orientation the orientation of the ship (0 for horizontal, 1 for vertical).
      */
+    @Override
     public void setShipPosition(int shipIndex,int row, int col, int orientation) {
         Ship ship = ships.get(shipIndex);
         int shipSize = ship.getShipSize();
@@ -78,13 +112,15 @@ public class PositionTable implements Serializable {
     }
 
     /**
-     *Check the position where the ship is going to be placed.
-     * @param shipIndex is the ship that's going to be placed
-     * @param row is the row where the ship is going to be placed
-     * @param col is the column where the ship is going to be placed
-     * @param orientation is the orientation of the ship, 0 if is horizontal or 1 if is vertical.
-     * @return
+     * Checks if a ship can be placed at the specified position based on its orientation.
+     *
+     * @param shipIndex the index of the ship to be placed.
+     * @param row the row where the ship should be placed.
+     * @param col the column where the ship should be placed.
+     * @param orientation the orientation of the ship (0 for horizontal, 1 for vertical).
+     * @return true if the ship can be placed, false otherwise.
      */
+    @Override
     public boolean checkPosition(int shipIndex, int row, int col, int orientation) {
         Ship ship = ships.get(shipIndex);
         int shipSize = ship.getShipSize();
@@ -110,6 +146,13 @@ public class PositionTable implements Serializable {
         return false;
     }
 
+    /**
+     * Checks if there are any remaining ships of the specified type to place.
+     *
+     * @param shipIndex the index of the ship to check.
+     * @return true if there are ships remaining, false otherwise.
+     */
+    @Override
     public boolean checkAmount(int shipIndex){
         Ship ship = ships.get(shipIndex);
         int shipAmount = ship.getShipAmount();
@@ -121,8 +164,9 @@ public class PositionTable implements Serializable {
     }
 
     /**
-     * Prints the player's board
+     * Prints the current state of the player's board to the console.
      */
+    @Override
     public void printBoard() {
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
@@ -132,6 +176,12 @@ public class PositionTable implements Serializable {
         }
     }
 
+    /**
+     * Checks if all ships have been placed on the board.
+     *
+     * @return true if the board is fully populated, false otherwise.
+     */
+    @Override
     public boolean isBoardFull() {
         for (Ship ship : ships) {
             if (ship == null) continue;
@@ -142,6 +192,11 @@ public class PositionTable implements Serializable {
         return true;
     }
 
+    /**
+     * Returns the list of coordinates where ships have been placed on the board.
+     *
+     * @return the list of ship coordinates.
+     */
     public List<int[]> getShipCoordinatesList() {
         return shipCoordinatesList;
     }

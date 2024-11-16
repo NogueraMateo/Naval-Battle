@@ -25,6 +25,12 @@ public class ShipDrawer implements ShipDrawerInterface{
     private final double SHIP_HEIGHT = 22.0;
     private final int CELL_SIZE = 30;
 
+    /**
+     * Draws a frigate ship.
+     *
+     * @param vertical if true, the ship is drawn vertically; otherwise, horizontally.
+     * @return A JavaFX Group containing the graphical representation of the frigate.
+     */
     @Override
     public Group drawFrigate(boolean vertical) {
         double shipLength = this.CELL_SIZE;
@@ -63,6 +69,13 @@ public class ShipDrawer implements ShipDrawerInterface{
         return frigateGroup;
     }
 
+    /**
+     * Draws a destroyer ship.
+     *
+     * @param vertical   if true, the ship is drawn vertically; otherwise, horizontally.
+     * @param insideGrid if true, adjusts the ship's position for grid placement.
+     * @return A JavaFX Group containing the graphical representation of the destroyer.
+     */
     @Override
     public Group drawDestroyer(boolean vertical, boolean insideGrid) {
         double shipLength = this.CELL_SIZE * 2;
@@ -113,6 +126,13 @@ public class ShipDrawer implements ShipDrawerInterface{
         return destroyerGroup;
     }
 
+    /**
+     * Draws a submarine ship.
+     *
+     * @param vertical   if true, the ship is drawn vertically; otherwise, horizontally.
+     * @param insideGrid if true, adjusts the ship's position for grid placement.
+     * @return A JavaFX Group containing the graphical representation of the submarine.
+     */
     @Override
     public Group drawSubmarine(boolean vertical, boolean insideGrid) {
         double shipLength = this.CELL_SIZE * 3;
@@ -168,6 +188,20 @@ public class ShipDrawer implements ShipDrawerInterface{
         return submarineGroup;
     }
 
+    /**
+     * Draws an aircraft carrier ship.
+     *
+     * @param vertical   if true, the ship is drawn vertically; otherwise, horizontally.
+     * @param insideGrid if true, adjusts the ship's position for grid placement.
+     * @return A JavaFX Group containing the graphical representation of the aircraft carrier.
+     */
+    /**
+     * * Draws an aircraft carrier ship.
+     * *
+     * * @param vertical   if true, the ship is drawn vertically; otherwise, horizontally.
+     * * @param insideGrid if true, adjusts the ship's position for grid placement.
+     * * @return A JavaFX Group containing the graphical representation of the aircraft carrier.
+     */
     @Override
     public Group drawAircraftCarrier(boolean vertical, boolean insideGrid) {
         double shipLength = this.CELL_SIZE * 4 + 8;
@@ -255,6 +289,11 @@ public class ShipDrawer implements ShipDrawerInterface{
         return aircraftCarrierGroup;
     }
 
+    /**
+     * Draws a bomb graphic.
+     *
+     * @return A JavaFX Group containing the graphical representation of a bomb.
+     */
     public Group drawBomb() {
         Path fireStar = new Path();
         fireStar.getElements().addAll(
@@ -281,6 +320,11 @@ public class ShipDrawer implements ShipDrawerInterface{
         return new Group(baseCircle, fireStar);
     }
 
+    /**
+     * Draws a missed shot graphic.
+     *
+     * @return A JavaFX Group containing the graphical representation of a missed shot.
+     */
     public Group drawMissedShot() {
         Line diagonal1 = drawLine(CELL_SIZE - 28, CELL_SIZE - 2, CELL_SIZE - 2, 6, "#ac1b1b", 3);
         Line diagonal2 = drawLine(6, 6, CELL_SIZE - 2, CELL_SIZE - 2, "#ac1b1b", 3);
@@ -289,6 +333,17 @@ public class ShipDrawer implements ShipDrawerInterface{
 
     }
 
+    /**
+     * Creates a rectangle with specified properties.
+     *
+     * @param x         the X-coordinate of the rectangle.
+     * @param y         the Y-coordinate of the rectangle.
+     * @param width     the width of the rectangle.
+     * @param height    the height of the rectangle.
+     * @param fillHex   the fill color in hexadecimal format.
+     * @param strokeHex the stroke color in hexadecimal format.
+     * @return A JavaFX Rectangle with the specified properties.
+     */
     @Override
     public Rectangle rectangle(int x, int y, double width, double height, String fillHex, String strokeHex) {
         Rectangle bigWindow = new Rectangle(width, height);
@@ -300,6 +355,17 @@ public class ShipDrawer implements ShipDrawerInterface{
         return bigWindow;
     }
 
+    /**
+     * Creates a line with specified properties.
+     *
+     * @param fromX       the starting X-coordinate of the line.
+     * @param fromY       the starting Y-coordinate of the line.
+     * @param toX         the ending X-coordinate of the line.
+     * @param toY         the ending Y-coordinate of the line.
+     * @param color       the color of the line in hexadecimal format.
+     * @param strokeWidth the width of the line stroke.
+     * @return A JavaFX Line with the specified properties.
+     */
     @Override
     public Line drawLine(double fromX, double fromY, double toX, double toY, String color, double strokeWidth) {
         Line line = new Line(fromX, fromY, toX, toY);
@@ -308,6 +374,12 @@ public class ShipDrawer implements ShipDrawerInterface{
         return line;
     }
 
+    /**
+     * Draws a fire animation graphic.
+     *
+     * @return A JavaFX Group containing the graphical representation of fire.
+     */
+    @Override
     public Group drawFire() {
         Path fireStar = new Path();
         fireStar.getElements().addAll(
