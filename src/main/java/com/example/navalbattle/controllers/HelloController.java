@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class for the initial screen of the Naval Battle game.
+ * Handles user interactions such as entering the username and accessing game instructions.
+ */
 public class HelloController {
     @FXML
     private Label welcomeText;
@@ -18,6 +22,13 @@ public class HelloController {
     @FXML
     private TextField inputUsername;
 
+    /**
+     * Handles the Play button action.
+     * Validates the username input and initializes the game view.
+     *
+     * @param event the event triggered by clicking the Play button.
+     * @throws IOException if there is an issue loading the game view.
+     */
     @FXML
     protected void onHelloButtonPlay(Event event) throws IOException {
         if (inputUsername == null || inputUsername.getText().trim().isEmpty()) {
@@ -38,6 +49,10 @@ public class HelloController {
         }
     }
 
+    /**
+     * Displays game instructions in an informational alert dialog.
+     * The instructions include details about the game objective, boards, and gameplay.
+     */
     public void onActionButtonInstructions() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");

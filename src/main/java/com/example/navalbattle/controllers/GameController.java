@@ -95,6 +95,12 @@ public class GameController {
         crosshairView.setFitHeight(55);
     }
 
+    /**
+     * Initializes the game by setting the player's username and checking for any previous match.
+     * If a previous match exists, it loads it; otherwise, it initializes a new match.
+     *
+     * @param username the username of the player
+     */
     @FXML
     public void initialize(String username) {
         this.username = username;
@@ -106,12 +112,23 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the player's shoot turn. Sets the player's turn flag to true and triggers turn management.
+     *
+     * @param event the action event triggered by the player
+     */
     @FXML
     private void playerShootTurn(ActionEvent event) {
         playerTurn = true;
         turnManagement();
     }
 
+    /**
+     * Starts the game by disabling the start button, making the fire button visible,
+     * disabling the user fleet controls, and printing the main board.
+     *
+     * @param event the action event triggered by clicking the start button
+     */
     @FXML
     private void startButton(ActionEvent event) {
         startGame.setDisable(true);
@@ -120,6 +137,10 @@ public class GameController {
         gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getBoard());
     }
 
+    /**
+     * Handles the case where there is a previous match in progress.
+     * Asks the player if they want to load the previous match or start a new one.
+     */
     private void handlePreviousMatch() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Previous Game in Progress");
@@ -134,6 +155,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Loads the previous match, sets the fleet, updates labels, and sets up events for ships and bombs.
+     */
     private void loadPreviousMatch() {
         gameModel.loadPreviousMatch();
         setFleet(false);
@@ -152,6 +176,9 @@ public class GameController {
         labelPlayerName.setText(gameModel.getNickname() + "'s Fleet");
     }
 
+    /**
+     * Initializes a new match by setting up the game model and configuring the game events.
+     */
     private void initializeNewMatch() {
         gameModel.newMatch(this.username);
         setCellsEvents();
@@ -160,8 +187,9 @@ public class GameController {
         createShotHandlers();
     }
 
-    // --------------------------------- METHODS FOR SETTING THE GAME ENVIRONMENT ----------------------------
-
+    /**
+     * Updates the counters for the number of each ship type (frigates, destroyers, submarines, aircraft).
+     */
     public void updateLabels() {
         ArrayList<Ship> ships = gameModel.getPositionTable().getShips();
         for (Ship ship : ships) {
@@ -178,6 +206,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Sets up event handlers for clicking on cells to place ships or change ship orientation.
+     * Also sets up events for the machine's fleet cells to allow shooting.
+     */
     private void setCellsEvents() {
         for (Node node : userFleet.getChildren()) {
             node.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -200,6 +232,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Updates the board with bombs and shots, drawing missed shots, bombs, and fires based on the shot grids.
+     */
     private void setBombs() {
         int[][] machineShotGrid = gameModel.getMainTable().getShotGrid();
         int[][] positionShotGrid = gameModel.getPositionTable().getShotGrid();
@@ -238,6 +273,10 @@ public class GameController {
         checkSamePlayerShip();
     }
 
+    /**
+     * Sets up the ghost ships (invisible ships used for previewing placement)
+     * for each ship type in the game. The ships are drawn but not placed on the board.
+     */
     private void setGhostShips() {
         rotate = new Rotate(0, 0, 0);
         frigateGhost = drawer.drawFrigate(false);
@@ -250,6 +289,10 @@ public class GameController {
         aircraftGhost.getTransforms().add(rotate);
     }
 
+    /**
+     * Sets up events for ship types that allow users to select and place them on the board.
+     * Displays a description of the selected ship.
+     */
     private void setUpShipEvents() {
         Group ship1 = drawer.drawFrigate(true);
         ship1.getStyleClass().add("ship");
@@ -281,6 +324,14 @@ public class GameController {
 
     }
 
+    /**
+     * Adds sample ships to the ship selection grid for the user to choose from.
+     *
+     * @param ship1 The first ship to add to the selection grid.
+     * @param ship2 The second ship to add to the selection grid.
+     * @param ship3 The third ship to add to the selection grid.
+     * @param ship4 The fourth ship to add to the selection grid.
+     */
     private void setSampleShips(Group ship1, Group ship2, Group ship3, Group ship4) {
         selectionGrid.add(ship1, 0, 0);
         selectionGrid.add(ship2, 0, 1);
@@ -289,9 +340,11 @@ public class GameController {
     }
 
     /**
-     * Places the machine's fleet on the board using the coordinates obtained
-     * from the mainTable
-     * Each ship is drawn on the board at the specified position and orientation.
+     * Places the fleet on the board using the coordinates from either the machine's
+     * or player's fleet.
+     *
+     * @param machine Boolean indicating whether the fleet is for the machine (true)
+     * or the player (false).
      */
     private void setFleet(boolean machine) {
         List<int[]> shipCoordinates;
@@ -316,8 +369,12 @@ public class GameController {
     }
 
     /**
-     * Decreases the ship amount by one on the interface
-     * @param shipType
+     * Updates the ship counter on the UI when a ship is placed on the board.
+     * Decreases the count for the specified ship type and removes the ghost
+     * ship if there are no ships left.
+     *
+     * @param shipType The type of the ship to update (1 for Frigate, 2 for Destroyer,
+     *                 3 for Submarine, 4 for Aircraft Carrier).
      */
     private void updateCounter(int shipType) {
         int currentAmount = 0;
@@ -350,6 +407,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Creates handlers for mouse events during the shot phase, including hover
+     * effects and crosshair visibility.
+     */
     private void createShotHandlers() {
         mouseEnteredHandler = mouseEvent -> {
             machinesFleet.setCursor(Cursor.DISAPPEAR);
@@ -384,6 +445,11 @@ public class GameController {
         machinesFleet.addEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
     }
 
+    /**
+     * Checks if the player or machine has won the game based on the number of hits
+     * recorded on the shot grids. If either player or machine has hit all the opponent's ships,
+     * the winner is declared and the game ends.
+     */
     private void setWinner(){
         int[][] playerShotTable = gameModel.getMainTable().getShotGrid();
         int[][] machineShotTable = gameModel.getPositionTable().getShotGrid();
@@ -426,6 +492,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Manages the turns of the game. When it's the player's turn, the fire button is enabled
+     * and the player can shoot at the machine's fleet. When it's the machine's turn, it automatically
+     * shoots at the player's fleet after a short pause.
+     */
     private void turnManagement(){
         if (playerTurn) {
             fireButton.setDisable(false);
@@ -457,6 +528,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the machine's shooting logic. It updates the shot grid, draws the appropriate shot, and updates the player's turn.
+     *
+     * @param playerTable The game table of the player.
+     * @param machineShootX The x-coordinate of the shot on the table.
+     * @param machineShootY The y-coordinate of the shot on the table.
+     */
     private void machineShoot(int[][] playerTable, int machineShootX, int machineShootY){
         if (playerTable[machineShootX][machineShootY] == 0){
             successfulShot = false;
@@ -485,6 +563,12 @@ public class GameController {
         gameModel.saveGame();
     }
 
+    /**
+     * Handles the player's shooting logic. It updates the shot grid, draws the appropriate shot, and updates the player's turn.
+     *
+     * @param machineTable The game table of the machine.
+     * @param clickedNode The clicked node (cell) on the game board.
+     */
     private void playerShoot(int[][] machineTable, Node clickedNode){
         if (playerTurn){
             Integer machinePaneRow = GridPane.getRowIndex(clickedNode);
@@ -533,6 +617,12 @@ public class GameController {
         };
     }
 
+    /**
+     * Traverses the position array to check the status of ships (damaged or sunk) and updates their graphical representation.
+     *
+     * @param currentArray The current ship's coordinates to be checked.
+     * @param player Indicates whether the check is for the player (true) or machine (false).
+     */
     private void traversePositionArray(int[] currentArray, boolean player) {
         int[][] board;
         int counterType4 = 0;
@@ -572,6 +662,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks and updates the visual representation of the player's ships after a shot is fired.
+     */
     private void checkSamePlayerShip() {
         List<int[]> shipCoordinates = gameModel.getPositionTable().getShipCoordinatesList();
 
@@ -580,6 +673,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks and updates the visual representation of the machine's ships after a shot is fired.
+     */
     private void checkSameMachineShip() {
         List<int[]> shipCoordinates = gameModel.getMainTable().getShipCoordinatesList();
 
@@ -589,6 +685,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Places a ship on the player's board based on the selected cell and orientation.
+     *
+     * @param clickedNode The clicked node (cell) on the game board where the ship is to be placed.
+     */
     private void placeShip(Node clickedNode) {
         boolean checkPosition = false, checkAmount = false;
         gridPaneRow = GridPane.getRowIndex(clickedNode);
@@ -640,6 +741,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Changes the orientation of the selected ship (from horizontal to vertical or vice versa).
+     */
     private void changeOrientation() {
         if (shipOrientation == 1){
             rotate.setAngle(90);
@@ -695,6 +799,11 @@ public class GameController {
         });
     }
 
+    /**
+     * Displays a message to the user on the interface.
+     *
+     * @param msg The message to be displayed.
+     */
     private void showMessage(String msg) {
         messageLabel.setText(msg);
         messageLabel.setVisible(true);
@@ -704,11 +813,19 @@ public class GameController {
         transition.play();
     }
 
+    /**
+     * Triggered by a button click to reveal the machine's fleet when the correct keyword is entered.
+     *
+     * @param event The action event triggered by the button.
+     */
     @FXML
     private void onActionRevealFleet(ActionEvent event) {
         showCustomModal();
     }
 
+    /**
+     * Displays a modal dialog to enter a secret keyword and reveal the machine's fleet if the correct keyword is provided.
+     */
     private void showCustomModal() {
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
@@ -748,6 +865,9 @@ public class GameController {
         dialog.showAndWait();
     }
 
+    /**
+     * Hides the player's fleet and toggles the button to show the fleet again.
+     */
     private void setHideButton() {
         revealFleet.setVisible(false);
         revealFleet.setManaged(false);
@@ -782,6 +902,12 @@ public class GameController {
         machinesFleet.removeEventFilter(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
     }
 
+    /**
+     * Resets the game by closing the current stage and opening a new one, allowing the player to play again.
+     *
+     * @param event The event triggered by the "Play Again" button.
+     * @throws IOException If an error occurs during stage initialization.
+     */
     @FXML
     private void playAgain(Event event) throws IOException {
         Node source = (Node) event.getSource();
