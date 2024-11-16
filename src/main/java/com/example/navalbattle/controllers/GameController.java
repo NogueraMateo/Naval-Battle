@@ -5,6 +5,7 @@ import com.example.navalbattle.models.Ship;
 import com.example.navalbattle.views.GameView;
 import com.example.navalbattle.views.ShipDrawer;
 import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
@@ -414,24 +415,32 @@ public class GameController {
 
     private void turnManagement(){
         if (playerTurn) {
-            fireButton.setDisable(true);
+            fireButton.setDisable(false);
             machinesFleet.setDisable(false);
             setScopePointer();
         }
         else {
             removeScopePointer();
-            fireButton.setDisable(false);
+            fireButton.setDisable(true);
             machinesFleet.setDisable(true);
-            int[] machineRandCoordinates = new int[0];
-            if (successfulShot){
-                machineRandCoordinates = gameModel.getMainTable().smartShot();
-            } else {
-                machineRandCoordinates = gameModel.getMainTable().shot();
-            }
-            int machineRandX = machineRandCoordinates[0];
-            int machineRandY = machineRandCoordinates[1];
-            machineShoot(gameModel.getPositionTable().getBoard(), machineRandX, machineRandY);
 
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+
+            pause.setOnFinished(event -> {
+                int[] machineRandCoordinates;
+                if (successfulShot) {
+                    machineRandCoordinates = gameModel.getMainTable().smartShot();
+                } else {
+                    machineRandCoordinates = gameModel.getMainTable().shot();
+                }
+                int machineRandX = machineRandCoordinates[0];
+                int machineRandY = machineRandCoordinates[1];
+                machineShoot(gameModel.getPositionTable().getBoard(), machineRandX, machineRandY);
+                if(playerTurn){
+                    fireButton.setDisable(false);
+                }
+            });
+            pause.play();
         }
     }
 
