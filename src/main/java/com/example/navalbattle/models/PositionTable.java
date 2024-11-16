@@ -4,6 +4,7 @@ import javafx.scene.Group;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The PositionTable class represents the player's table there could be placed all the player's ships
@@ -19,7 +20,7 @@ public class PositionTable implements Serializable {
      * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
      */
     ArrayList<Ship> ships = new ArrayList<Ship>();
-    ArrayList<int[]> shipCoordinatesList = new ArrayList<>();
+    private final List<int[]> shipCoordinatesList = new ArrayList<>();
 
     /**
      * The constructor method of the positionTable class, it sets the ships inside the ArrayList on
@@ -55,15 +56,16 @@ public class PositionTable implements Serializable {
             for (int i = row; i < shipSize + row; i++){
                 positionTable[i][col] = shipType;
             }
+            shipCoordinatesList.add(new int[]{row, col, row + shipSize - 1, col, orientation, shipType });
         }
         //HORIZONTAL ORIENTATION
         else if (orientation == 1){
             for (int j = col; j < shipSize + col; j++){
                 positionTable[row][j] = shipType;
             }
+            shipCoordinatesList.add(new int[]{row, col, row, col + shipSize - 1, orientation, shipType });
         }
         ship.setShipAmount(ship.getShipAmount() - 1);
-        shipCoordinatesList.add(new int[]{row, col, orientation, shipType});
     }
 
     /**
@@ -131,7 +133,7 @@ public class PositionTable implements Serializable {
         return true;
     }
 
-    public ArrayList<int[]> getShipCoordinatesList() {
+    public List<int[]> getShipCoordinatesList() {
         return shipCoordinatesList;
     }
 }
