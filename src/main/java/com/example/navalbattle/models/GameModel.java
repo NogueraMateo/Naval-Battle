@@ -74,4 +74,8 @@ public class GameModel {
     public void saveGame() {
         gamePersistenceModel.takeSnapshot(mainTable, positionTable);
     }
+
+    public void removeMatchTracking() {
+        gamePersistenceModel.deleteMatchStatus();
+    }
 }

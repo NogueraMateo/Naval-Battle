@@ -31,6 +31,7 @@ public class GamePersistenceModel implements GamePersistenceInterface{
     public void serialize(MatchStatusSerializable match) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./src/main/resources/com/example/navalbattle/previousMatch/previous_match.ser"));){
             oos.writeObject(currentMatchStatus);
+            oos.flush();
         } catch (IOException e) {
             System.err.println("Error saving the current match status: " + e.getMessage());
         }
@@ -48,5 +49,20 @@ public class GamePersistenceModel implements GamePersistenceInterface{
     public void takeSnapshot(MainTable mainTable, PositionTable positionTable) {
         currentMatchStatus.saveSnapShot(mainTable, positionTable);
         serialize(currentMatchStatus);
+    }
+
+    public void deleteMatchStatus() {
+        File matchStatus = new File("./src/main/resources/com/example/navalbattle/previousMatch/previous_match.ser");
+
+        if (matchStatus.exists()) {
+            boolean deleted = matchStatus.delete();
+            if (deleted) {
+                System.out.println("Match deleted successfully");
+            } else {
+                System.out.println("Error deleting match status: " + matchStatus.getAbsolutePath());
+            }
+        } else {
+            System.out.println("No match found");
+        }
     }
 }

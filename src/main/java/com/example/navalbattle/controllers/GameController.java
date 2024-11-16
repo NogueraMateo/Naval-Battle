@@ -405,6 +405,7 @@ public class GameController {
         }
 
         if (playerShotCounter == 20){
+            gameModel.removeMatchTracking();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText(null);
@@ -414,6 +415,7 @@ public class GameController {
             playAgain.setVisible(true);
         }
         else if (machineShotCounter == 20){
+            gameModel.removeMatchTracking();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText(null);
