@@ -37,7 +37,7 @@
             </GridPane>
             <VBox id="userBaseHBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="575.0" prefWidth="420.0">
                <children>
-                  <Label id="yourFleet" text="Your fleet" />
+                  <Label id="yourFleet" fx:id="labelPlayerName" text="Your fleet" />
                   <GridPane id="userBaseGrid" fx:id="userFleet" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="330.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
