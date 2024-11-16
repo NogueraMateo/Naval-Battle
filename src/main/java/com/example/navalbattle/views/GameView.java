@@ -1,5 +1,6 @@
 package com.example.navalbattle.views;
 
+import com.example.navalbattle.controllers.GameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import java.io.IOException;
  * the game view is created and managed at a time.
  */
 public class GameView extends Stage {
+    private final GameController gameController;
 
     /**
      * Initializes the GameView by loading the FXML layout and setting
@@ -27,6 +29,7 @@ public class GameView extends Stage {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/navalbattle/game-view.fxml"));
         Parent root = loader.load();
         this.setTitle("Naval Battle");
+        this.gameController = loader.getController();
         Scene scene = new Scene(root);
         this.setScene(scene);
         this.setResizable(false);
@@ -55,6 +58,10 @@ public class GameView extends Stage {
         } else {
             return GameViewHolder.INSTANCE;
         }
+    }
+
+    public GameController getGameController() {
+        return gameController;
     }
 
 }
