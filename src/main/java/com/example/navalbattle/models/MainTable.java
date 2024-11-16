@@ -1,5 +1,6 @@
 package com.example.navalbattle.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Random;
  * Ships sizes are defined in the shipsSize array.
  * @author JuanToro
  */
-public class MainTable {
+public class MainTable implements Serializable {
     /**
      * A 10x10 grid representing the game board.
      * Each cell can be either 0 (water) or 1 (occupied by a ship).
@@ -99,7 +100,7 @@ public class MainTable {
                         int endY = horizontal ? column + size - 1 : column;
                         int orientation = horizontal ? 1 : 0;
 
-                        shipCoordinatesList.add(new int[]{row, column, endX, endY, orientation, aux});
+                        shipCoordinatesList.add(new int[]{row, column, orientation, aux});
 
                         placed = true;
                     }

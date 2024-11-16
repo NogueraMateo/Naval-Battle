@@ -1,5 +1,9 @@
 package com.example.navalbattle.models;
 
+import com.sun.tools.javac.Main;
+import javafx.geometry.Pos;
+
+import javax.swing.text.Position;
 import java.io.Serializable;
 
 /**
@@ -11,8 +15,8 @@ import java.io.Serializable;
  */
 public class MatchStatusSerializable implements Serializable {
 
-    private int[][] mainTable;
-    private int[][] positionTable;
+    private MainTable mainTable;
+    private PositionTable positionTable;
 
     /**
      * Constructs a new MatchStatusSerializable with the given player
@@ -21,7 +25,7 @@ public class MatchStatusSerializable implements Serializable {
      * @param mainTable      the machine's game board
      * @param positionTable  the player's game board
      */
-    public MatchStatusSerializable(int[][] mainTable, int[][] positionTable) {
+    public MatchStatusSerializable(MainTable mainTable, PositionTable positionTable) {
         this.mainTable = mainTable;
         this.positionTable = positionTable;
     }
@@ -31,7 +35,7 @@ public class MatchStatusSerializable implements Serializable {
      *
      * @return a 2D array representing the machine's board
      */
-    public int[][] getMainTable() {
+    public MainTable getMainTable() {
         return mainTable;
     }
 
@@ -40,7 +44,7 @@ public class MatchStatusSerializable implements Serializable {
      *
      * @return a 2D array representing the player's board
      */
-    public int[][] getPositionTable() {
+    public PositionTable getPositionTable() {
         return positionTable;
     }
 
@@ -50,7 +54,7 @@ public class MatchStatusSerializable implements Serializable {
      * @param mainTable      the machine's game board to save
      * @param positionTable  the player's game board to save
      */
-    public void saveSnapShot(int[][] mainTable, int[][] positionTable) {
+    public void saveSnapShot(MainTable mainTable, PositionTable positionTable) {
         this.mainTable = mainTable;
         this.positionTable = positionTable;
     }

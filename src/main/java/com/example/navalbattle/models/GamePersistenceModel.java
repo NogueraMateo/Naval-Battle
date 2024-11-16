@@ -22,7 +22,7 @@ public class GamePersistenceModel implements GamePersistenceInterface{
     }
 
     @Override
-    public void registerNewMatch(int[][] mainTable, int[][] positionTable) {
+    public void registerNewMatch(MainTable mainTable, PositionTable positionTable) {
         currentMatchStatus = new MatchStatusSerializable(mainTable, positionTable);
         serialize(currentMatchStatus);
     }
@@ -42,15 +42,14 @@ public class GamePersistenceModel implements GamePersistenceInterface{
 
     @Override
     public MatchStatusSerializable deserialize() throws ClassNotFoundException, IOException{
-        MatchStatusSerializable previousMatch;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./src/main/resources/com/example/navalbattle/previousMatch/previous_match.ser"))) {
-            previousMatch = (MatchStatusSerializable) ois.readObject();
+            currentMatchStatus = (MatchStatusSerializable) ois.readObject();
         }
-        return previousMatch;
+        return currentMatchStatus;
     }
 
     @Override
-    public void takeSnapshot(int[][] mainTable, int[][] positionTable) {
+    public void takeSnapshot(MainTable mainTable, PositionTable positionTable) {
         currentMatchStatus.saveSnapShot(mainTable, positionTable);
         serialize(currentMatchStatus);
     }

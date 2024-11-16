@@ -1,6 +1,8 @@
 package com.example.navalbattle.models;
 
-public class Ship {
+import java.io.Serializable;
+
+public class Ship implements Serializable {
     int shipSize;
     int shipType;
     int shipAmount;

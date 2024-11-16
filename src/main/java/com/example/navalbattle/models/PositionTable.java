@@ -2,6 +2,7 @@ package com.example.navalbattle.models;
 
 import javafx.scene.Group;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * it has 10x10 grid with the information of the player's ships of varying size in the ships arraylist
  */
 
-public class PositionTable {
+public class PositionTable implements Serializable {
     /**
      * It's the 10x10 matrix that represents the player's table where the ships are going to be placed
      */
@@ -18,6 +19,7 @@ public class PositionTable {
      * ships is an ArrayList that stores the information of the ships, the size, the amount and the type
      */
     ArrayList<Ship> ships = new ArrayList<Ship>();
+    ArrayList<int[]> shipCoordinatesList = new ArrayList<>();
 
     /**
      * The constructor method of the positionTable class, it sets the ships inside the ArrayList on
@@ -29,20 +31,6 @@ public class PositionTable {
         ships.add(new Ship(2,2, 3));
         ships.add(new Ship(3,3, 2));
         ships.add(new Ship(4,4, 1));
-    }
-
-    public PositionTable(int[][] positionTable) {
-        ships.add(null);
-        ships.add(new Ship(1,1, 0));
-        ships.add(new Ship(2,2, 0));
-        ships.add(new Ship(3,3, 0));
-        ships.add(new Ship(4,4, 0));
-
-
-
-        this.positionTable = positionTable;
-        System.out.println("Previous position table loaded");
-        this.printBoard();
     }
 
     public int[][] getPositionTable() {
@@ -63,18 +51,19 @@ public class PositionTable {
         int shipType = ship.getShipType();
 
         //VERTICAL ORIENTATION
-        if (orientation == 1){
+        if (orientation == 0){
             for (int i = row; i < shipSize + row; i++){
                 positionTable[i][col] = shipType;
             }
         }
         //HORIZONTAL ORIENTATION
-        else if (orientation == 0){
+        else if (orientation == 1){
             for (int j = col; j < shipSize + col; j++){
                 positionTable[row][j] = shipType;
             }
         }
         ship.setShipAmount(ship.getShipAmount() - 1);
+        shipCoordinatesList.add(new int[]{row, col, orientation, shipType});
     }
 
     /**
@@ -91,14 +80,14 @@ public class PositionTable {
         int checkCounter = 0;
 
         //VERTICAL ORIENTATION
-        if (orientation == 1){
+        if (orientation == 0){
             for (int i = row; i < shipSize + row; i++){
                 if (positionTable[i][col] == 0)
                     checkCounter++;
             }
         }
         //HORIZONTAL ORIENTATION
-        else if (orientation == 0){
+        else if (orientation == 1){
             for (int j = col; j < shipSize + col; j++){
                 if (positionTable[row][j] == 0)
                     checkCounter++;
@@ -140,5 +129,9 @@ public class PositionTable {
             }
         }
         return true;
+    }
+
+    public ArrayList<int[]> getShipCoordinatesList() {
+        return shipCoordinatesList;
     }
 }

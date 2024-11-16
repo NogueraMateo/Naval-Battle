@@ -1,6 +1,7 @@
 package com.example.navalbattle.controllers;
 
 
+import com.example.navalbattle.models.GameModel;
 import com.example.navalbattle.models.MainTable;
 import com.example.navalbattle.models.PositionTable;
 import com.example.navalbattle.views.ShipDrawer;
@@ -10,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +24,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The GameController interacts with the view to place ships,
@@ -62,11 +66,12 @@ public class GameController {
     private final ShipDrawer drawer;
     private final MainTable mainTable;
     private PositionTable positionTable = new PositionTable();
+    private final GameModel gameModel;
 
     private Integer gridPaneRow;
     private Integer gridPaneCol;
     private int shipType;
-    private int shipOrientation = 0;
+    private int shipOrientation = 1;
 
     private Group frigateGhost;
     private Group destroyerGhost;
@@ -87,6 +92,7 @@ public class GameController {
      * to handle the drawing of various ship types.
      */
     public GameController() {
+        gameModel = new GameModel();
         drawer = new ShipDrawer();
         mainTable = new MainTable();
 
@@ -98,10 +104,37 @@ public class GameController {
 
     @FXML
     private void initialize() {
+        if (gameModel.existsPreviousMatch()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Previous Game in Progress");
+            alert.setHeaderText(null);
+            alert.setContentText("You have a previous game in progress. Do you want to load it?");
+            Optional<ButtonType> result = alert.showAndWait();
 
-        setCellsEvents();
-        setUpShipEvents();
-        setGhostShips();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                gameModel.loadPreviousMatch();
+                setFleet(true);
+                setFleet(false);
+
+                if (!gameModel.getPositionTable().isBoardFull()) {
+                    setCellsEvents();
+                    setUpShipEvents();
+                    setGhostShips();
+                }
+            } else {
+                gameModel.newMatch();
+                setCellsEvents();
+                setUpShipEvents();
+                setGhostShips();
+            }
+
+        } else {
+            gameModel.newMatch();
+            setCellsEvents();
+            setUpShipEvents();
+            setGhostShips();
+        }
+
     }
 
     private void setGhostShips() {
@@ -172,15 +205,24 @@ public class GameController {
      * from the mainTable
      * Each ship is drawn on the board at the specified position and orientation.
      */
-    public void setMachinesFleet() {
-        List<int[]> shipCoordinates = mainTable.getShipCoordinatesList();
+    public void setFleet(boolean machine) {
+        List<int[]> shipCoordinates;
+        if (machine) {
+            shipCoordinates = gameModel.getMainTable().getShipCoordinatesList();
+        } else {
+            shipCoordinates = gameModel.getPositionTable().getShipCoordinatesList();
+        }
         for (int[] coordinates : shipCoordinates) {
             int row = coordinates[0];
             int column = coordinates[1];
-            boolean vertical = (coordinates[4] == 0);
-            int type = coordinates[5];
+            boolean vertical = (coordinates[2] == 0);
+            int type = coordinates[3];
             Group ship = drawShip(type, vertical);
-            machinesFleet.add(ship, column, row);
+            if (machine) {
+                machinesFleet.add(ship, column, row);
+            } else {
+                userFleet.add(ship, column, row);
+            }
         }
     }
 
@@ -211,34 +253,31 @@ public class GameController {
         if (gridPaneCol == null) gridPaneCol = 0;
 
         try {
-            checkPosition = positionTable.checkPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
+            checkPosition = gameModel.getPositionTable().checkPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
         } catch (NullPointerException e) {
             showMessage("PLEASE SELECT A SHIP TO PLACE");
             return;
         } catch (ArrayIndexOutOfBoundsException e) {
             showMessage("THE SHIP DOESN'T FIT" + ((shipOrientation == 0) ? "VERTICALLY" : "HORIZONTALLY"));
         }
-        checkAmount = positionTable.checkAmount(shipType);
-
-        boolean orientation = false;
-
-        if (shipOrientation == 0) orientation = false;
-        else orientation = true;
+        checkAmount = gameModel.getPositionTable().checkAmount(shipType);
 
         if (checkPosition) {
             if (checkAmount) {
-                positionTable.setShipPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
+                gameModel.getPositionTable().setShipPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
+                gameModel.saveGame();
+                gameModel.getPositionTable().printBoard();
                 switch (shipType){
                     case 1: Group frigate = drawer.drawFrigate(false);
                         userFleet.add(frigate, gridPaneCol, gridPaneRow);
                         break;
-                    case 2: Group destroyer = drawer.drawDestroyer(orientation, true);
+                    case 2: Group destroyer = drawer.drawDestroyer(shipOrientation == 0, true);
                         userFleet.add(destroyer, gridPaneCol, gridPaneRow);
                         break;
-                    case 3: Group submarine = drawer.drawSubmarine(orientation, true);
+                    case 3: Group submarine = drawer.drawSubmarine(shipOrientation == 0, true);
                         userFleet.add(submarine, gridPaneCol, gridPaneRow);
                         break;
-                    case 4: Group aircraft = drawer.drawAircraftCarrier(orientation, true);
+                    case 4: Group aircraft = drawer.drawAircraftCarrier(shipOrientation == 0, true);
                         userFleet.add(aircraft, gridPaneCol, gridPaneRow);
                         break;
                 }
@@ -251,7 +290,7 @@ public class GameController {
             showMessage("THERE IS A SHIP ALREADY");
 
         // Activates 'Start Game' Button
-        if (positionTable.isBoardFull()) {
+        if (gameModel.getPositionTable().isBoardFull()) {
             startGame.setDisable(false);
         }
     }
@@ -292,13 +331,13 @@ public class GameController {
     }
 
     private void changeOrientation() {
-        if (shipOrientation == 0){
+        if (shipOrientation == 1){
             rotate.setAngle(90);
-            shipOrientation = 1;
-        }
-        else if (shipOrientation == 1) {
-            rotate.setAngle(0);
             shipOrientation = 0;
+        }
+        else if (shipOrientation == 0) {
+            rotate.setAngle(0);
+            shipOrientation = 1;
         }
     }
 
@@ -308,7 +347,7 @@ public class GameController {
      * @param shipType
      */
     private void showGhostShip(int shipType) {
-        shipOrientation = 0;
+        shipOrientation = 1;
         // If there is a ship already selected then it removes the current ghost
         if (currentGhost != null) {
             userFleet.getChildren().remove(currentGhost);
