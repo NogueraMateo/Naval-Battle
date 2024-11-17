@@ -1,0 +1,6 @@
+module:com.example.navalbattle
+com.example.navalbattle
+com.example.navalbattle.controllers
+com.example.navalbattle.interfaces
+com.example.navalbattle.models
+com.example.navalbattle.views
