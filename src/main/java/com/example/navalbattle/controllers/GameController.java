@@ -134,7 +134,6 @@ public class GameController {
         startGame.setDisable(true);
         fireButton.setVisible(true);
         userFleet.setDisable(true);
-        gameModel.getMainTable().printMainBoard(gameModel.getMainTable().getBoard());
     }
 
     /**
@@ -680,7 +679,6 @@ public class GameController {
         List<int[]> shipCoordinates = gameModel.getMainTable().getShipCoordinatesList();
 
         for (int[] coordinates: shipCoordinates) {
-            System.out.println(Arrays.toString(coordinates));
             traversePositionArray(coordinates, false);
         }
     }
@@ -712,7 +710,6 @@ public class GameController {
             if (checkAmount) {
                 gameModel.getPositionTable().setShipPosition(shipType, gridPaneRow, gridPaneCol, shipOrientation);
                 gameModel.saveGame();
-                gameModel.getPositionTable().printBoard();
                 switch (shipType){
                     case 1: Group frigate = drawer.drawFrigate(false);
                         userFleet.add(frigate, gridPaneCol, gridPaneRow);
